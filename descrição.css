@@ -1,0 +1,611 @@
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fff;
+    color: #111;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   VARIÁVEIS
+========================= */
+
+:root {
+    --black: #111;
+    --dark: #181818;
+    --gray: #666;
+    --light-gray: #f5f5f5;
+    --border: #e5e5e5;
+    --white: #fff;
+    --max-width: 1200px;
+}
+
+
+/* =========================
+   GERAL
+========================= */
+
+
+
+.container {
+    width: 90%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    width: 100%;
+    background: #111;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+}
+
+
+.nav {
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+
+/* LOGO */
+
+.logo {
+    color: #3aff03;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+
+/* MENU */
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.menu a {
+    position: relative;
+    font-size: 14px;
+    color: #fff;
+    transition: 0.3s ease;
+}
+
+.menu a:hover {
+    color: #aaa;
+}
+
+.menu a.active {
+    color: #fff;
+}
+
+.menu a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+}
+
+
+/* =========================
+   BOTÕES
+========================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 25px;
+    background: #111;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    border: 2px solid #111;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background: #fff;
+    color: #111;
+    transform: translateY(-2px);
+}
+
+.btn-small {
+    padding: 10px 18px;
+    font-size: 13px;
+}
+
+
+/* BOTÃO DO HEADER */
+
+.header .btn-small {
+    background: #fff;
+    color: #111;
+    border-color: #fff;
+}
+
+.header .btn-small:hover {
+    background: transparent;
+    color: #fff;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.about-hero {
+    padding: 120px 0 110px;
+    background: #fafafa;
+    border-bottom: 1px solid var(--border);
+}
+
+.about-hero .container {
+    max-width: 900px;
+}
+
+.about-hero h1 {
+    max-width: 800px;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.98;
+    letter-spacing: -4px;
+    margin-bottom: 30px;
+}
+
+.about-hero h1 span {
+    display: block;
+    color: #777;
+}
+
+.about-hero p {
+    max-width: 650px;
+    font-size: 20px;
+    color: var(--gray);
+    line-height: 1.7;
+}
+
+
+/* =========================
+   SOBRE
+========================= */
+
+.about {
+    padding: 110px 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+}
+
+.about h2 {
+    max-width: 500px;
+    font-size: clamp(38px, 5vw, 62px);
+    line-height: 1.05;
+    letter-spacing: -2.5px;
+}
+
+.about-text {
+    padding-top: 40px;
+}
+
+.about-text p {
+    font-size: 17px;
+    color: var(--gray);
+    margin-bottom: 25px;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   MISSÃO VISÃO VALORES
+========================= */
+
+.mvv {
+    padding: 110px 0;
+    background: #f5f5f5;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+    margin-bottom: 55px;
+}
+
+.section-title h2 {
+    font-size: clamp(38px, 5vw, 60px);
+    letter-spacing: -2.5px;
+    line-height: 1.05;
+}
+
+.mvv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+
+/* CARDS */
+
+.mvv-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 40px 35px;
+    min-height: 360px;
+    transition: 0.3s ease;
+}
+
+.mvv-card:hover {
+    transform: translateY(-6px);
+    border-color: #999;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.07);
+}
+
+.number {
+    font-size: 13px;
+    font-weight: 700;
+    color: #999;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
+}
+
+.mvv-card h3 {
+    font-size: 28px;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+
+.mvv-card p {
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* LISTA DE VALORES */
+
+.mvv-card ul {
+    list-style: none;
+    margin-top: 5px;
+}
+
+.mvv-card li {
+    color: #555;
+    font-size: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.mvv-card li:last-child {
+    border-bottom: none;
+}
+
+
+/* =========================
+   CTA
+========================= */
+
+.about-cta {
+    padding: 120px 0;
+    text-align: center;
+    background: #111;
+    color: #fff;
+}
+
+.about-cta .container {
+    max-width: 800px;
+}
+
+.about-cta .tag {
+    color: #aaa;
+}
+
+.about-cta h2 {
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 1.05;
+    letter-spacing: -3px;
+    margin-bottom: 25px;
+}
+
+.about-cta p {
+    max-width: 600px;
+    margin: 0 auto 35px;
+    color: #aaa;
+    font-size: 17px;
+}
+
+
+/* BOTÃO CTA */
+
+.about-cta .btn {
+    background: #fff;
+    color: #111;
+    border-color: #fff;
+}
+
+.about-cta .btn:hover {
+    background: transparent;
+    color: #fff;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    background: #0b0b0b;
+    color: #fff;
+    padding: 65px 0 25px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 50px;
+    padding-bottom: 50px;
+}
+
+
+/* LOGO FOOTER */
+
+.footer .logo {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.footer p {
+    color: #888;
+    font-size: 14px;
+}
+
+
+/* LINKS */
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.footer-links a {
+    color: #aaa;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #fff;
+}
+
+
+/* COPYRIGHT */
+
+.copyright {
+    padding-top: 25px;
+    border-top: 1px solid #292929;
+}
+
+.copyright p {
+    font-size: 12px;
+    color: #666;
+}
+
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 900px) {
+
+    /* HEADER */
+
+    .nav {
+        flex-wrap: wrap;
+        padding: 18px 0;
+    }
+
+    .menu {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 5px 0;
+    }
+
+
+    /* SOBRE */
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .about-text {
+        padding-top: 0;
+    }
+
+
+    /* MVV */
+
+    .mvv-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mvv-card {
+        min-height: auto;
+    }
+
+
+    /* FOOTER */
+
+    .footer-content {
+        flex-direction: column;
+    }
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 88%;
+    }
+
+
+    /* HEADER */
+
+    .nav {
+        min-height: auto;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .nav > .btn {
+        display: none;
+    }
+
+    .menu {
+        justify-content: flex-start;
+        gap: 22px;
+        scrollbar-width: none;
+    }
+
+    .menu::-webkit-scrollbar {
+        display: none;
+    }
+
+    .menu a {
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+
+    /* HERO */
+
+    .about-hero {
+        padding: 80px 0;
+    }
+
+    .about-hero h1 {
+        font-size: 50px;
+        letter-spacing: -2.5px;
+    }
+
+    .about-hero p {
+        font-size: 17px;
+    }
+
+
+    /* SOBRE */
+
+    .about {
+        padding: 80px 0;
+    }
+
+    .about h2 {
+        font-size: 42px;
+    }
+
+
+    /* MVV */
+
+    .mvv {
+        padding: 80px 0;
+    }
+
+    .section-title {
+        margin-bottom: 35px;
+    }
+
+    .section-title h2 {
+        font-size: 42px;
+    }
+
+    .mvv-card {
+        padding: 30px;
+    }
+
+    .number {
+        margin-bottom: 30px;
+    }
+
+
+    /* CTA */
+
+    .about-cta {
+        padding: 85px 0;
+    }
+
+    .about-cta h2 {
+        font-size: 43px;
+        letter-spacing: -2px;
+    }
+
+
+    /* FOOTER */
+
+    .footer {
+        padding-top: 50px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 14px;
+    }
+}

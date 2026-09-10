@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Evolua Admin</title>
+
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+    <main class="login-container">
+
+        <div class="login-box">
+
+            <div class="logo">
+                EVOLUA
+                <span>ADMIN</span>
+            </div>
+
+            <p class="subtitle">
+                Acesso restrito ao painel administrativo
+            </p>
+
+            <form id="loginForm">
+
+                <div class="input-group">
+                    <label for="email">Gmail</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Digite seu Gmail"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+
+                    <input
+                        type="password"
+                        id="senha"
+                        placeholder="Digite sua senha"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit">
+                    ENTRAR
+                
+                </button>
+
+                <p id="erro"></p>
+
+            </form>
+
+        </div>
+
+    </main>
+
+    <form id="loginForm">
+    <input type="email" id="email" placeholder="Gmail" required>
+
+    <input type="password" id="senha" placeholder="Senha" required>
+
+    <button type="submit">ENTRAR</button>
+
+    <p id="erro"></p>
+</form>
+
+<script src="login.js"></script>
+
+</body>
+
+</html>
