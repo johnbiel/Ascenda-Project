@@ -1,465 +1,135 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Admin | Ascenda Project</title>
+    <title>Ascenda Project</title>
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-    <style>
-        body {
-            background: #f5f5f5;
-        }
-
-        .login-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            padding: 20px;
-        }
-
-        .login-box {
-            width: 100%;
-            max-width: 420px;
-            background: white;
-            border-radius: 16px;
-            padding: 35px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .login-logo {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .login-logo h2 {
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .login-logo p {
-            color: #777;
-            margin: 0;
-        }
-
-        .login-box input {
-            height: 50px;
-        }
-
-        .btn-login {
-            width: 100%;
-            height: 50px;
-            font-weight: 600;
-        }
-
-        .admin-content {
-            display: none;
-        }
-
-        .produto-card img {
-            height: 220px;
-            object-fit: cover;
-        }
-
-        .loading {
-            display: none;
-        }
-    </style>
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-
-    <!-- Configuração -->
-    <script src="js/firebase-config.js"></script>
-
-    <!-- Administração -->
-    <script src="js/admin.js" defer></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ================================= -->
-    <!-- TELA DE LOGIN -->
-    <!-- ================================= -->
-
-    <div id="login-overlay" class="login-overlay">
-
-        <div class="login-box">
-
-            <div class="login-logo">
-                <h2>Ascenda Project</h2>
-                <p>Painel Administrativo</p>
-            </div>
-
-            <div id="login-mensagem" class="alert alert-danger d-none"></div>
-
-            <form id="login-form">
-
-                <div class="mb-3">
-
-                    <label for="login-email" class="form-label">
-                        E-mail
-                    </label>
-
-                    <input
-                        type="email"
-                        id="login-email"
-                        class="form-control"
-                        placeholder="Digite seu e-mail"
-                        required
-                    >
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label for="login-senha" class="form-label">
-                        Senha
-                    </label>
-
-                    <input
-                        type="password"
-                        id="login-senha"
-                        class="form-control"
-                        placeholder="Digite sua senha"
-                        required
-                    >
-
-                </div>
-
-                <button
-                    type="submit"
-                    id="btn-login"
-                    class="btn btn-dark btn-login">
-
-                    <span id="texto-login">
-                        Entrar no painel
-                    </span>
-
-                    <span
-                        id="loading-login"
-                        class="spinner-border spinner-border-sm loading"
-                        role="status">
-                    </span>
-
-                </button>
-
-            </form>
-
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="logo">
+            ASCENDA
         </div>
 
-    </div>
-
-
-    <!-- ================================= -->
-    <!-- PAINEL ADMINISTRATIVO -->
-    <!-- ================================= -->
-
-    <div id="admin-content" class="admin-content">
-
-        <!-- NAVBAR -->
-
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-            <div class="container">
-
-                <a
-                    class="navbar-brand fw-bold"
-                    href="index.html">
-
-                    Ascenda Project
-
-                </a>
-
-                <button
-                    id="btn-logout"
-                    class="btn btn-outline-light">
-
-                    Sair
-
-                </button>
-
-            </div>
-
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="como.html">Como funciona</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contato.html">Contato</a>
         </nav>
+    </header>
 
 
-        <!-- CONTEÚDO -->
+    <!-- ÁREA PRINCIPAL -->
+    <main>
 
-        <main class="container py-4">
+        <section class="hero">
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="hero-text">
 
-                <div>
+                <span class="tag">ASCENDA PROJECT</span>
 
-                    <h1>Painel Administrativo</h1>
+                <h1>
+                    Transforme sua mente.
+                    <br>
+                    Transforme sua vida.
+                </h1>
 
-                    <p class="text-muted mb-0">
-                        Gerencie os produtos da sua loja.
-                    </p>
-
-                </div>
-
-                <button
-                    id="btn-mostrar-form"
-                    class="btn btn-dark">
-
-                    + Adicionar Produto
-
-                </button>
-
-            </div>
-
-
-            <!-- MENSAGEM -->
-
-            <div
-                id="mensagem"
-                class="alert d-none">
-            </div>
-
-
-            <!-- ================================= -->
-            <!-- FORMULÁRIO DO PRODUTO -->
-            <!-- ================================= -->
-
-            <div
-                id="form-produto"
-                class="card shadow-sm p-4 mb-4 d-none">
-
-                <h3 class="mb-4">
-                    Produto
-                </h3>
-
-                <input
-                    type="hidden"
-                    id="id-produto"
-                >
-
-                <div class="mb-3">
-
-                    <label
-                        for="nome"
-                        class="form-label">
-
-                        Nome do produto
-
-                    </label>
-
-                    <input
-                        type="text"
-                        id="nome"
-                        class="form-control"
-                        placeholder="Ex: E-book Desenvolvimento Pessoal"
-                    >
-
-                </div>
-
-
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-
-                        <label
-                            for="preco"
-                            class="form-label">
-
-                            Preço
-
-                        </label>
-
-                        <input
-                            type="number"
-                            id="preco"
-                            class="form-control"
-                            placeholder="12.00"
-                            step="0.01"
-                            min="0"
-                        >
-
-                    </div>
-
-
-                    <div class="col-md-6 mb-3">
-
-                        <label
-                            for="estoque"
-                            class="form-label">
-
-                            Estoque
-
-                        </label>
-
-                        <input
-                            type="number"
-                            id="estoque"
-                            class="form-control"
-                            placeholder="10"
-                            min="0"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <!-- IMAGEM -->
-
-                <div class="mb-3">
-
-                    <label
-                        for="tipoImagem"
-                        class="form-label">
-
-                        Tipo da imagem
-
-                    </label>
-
-                    <select
-                        id="tipoImagem"
-                        class="form-select">
-
-                        <option value="url">
-                            Usar link da imagem
-                        </option>
-
-                        <option value="arquivo">
-                            Enviar imagem do computador
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div
-                    id="campo-url"
-                    class="mb-3">
-
-                    <label
-                        for="imagemURL"
-                        class="form-label">
-
-                        Link da imagem
-
-                    </label>
-
-                    <input
-                        type="url"
-                        id="imagemURL"
-                        class="form-control"
-                        placeholder="https://..."
-                    >
-
-                </div>
-
-
-                <div
-                    id="campo-arquivo"
-                    class="mb-3 d-none">
-
-                    <label
-                        for="imagemArquivo"
-                        class="form-label">
-
-                        Imagem
-
-                    </label>
-
-                    <input
-                        type="file"
-                        id="imagemArquivo"
-                        class="form-control"
-                        accept="image/*"
-                    >
-
-                </div>
-
-
-                <div class="mt-3">
-
-                    <button
-                        id="btn-salvar"
-                        class="btn btn-success me-2">
-
-                        Salvar produto
-
-                    </button>
-
-                    <button
-                        id="btn-cancelar"
-                        class="btn btn-secondary">
-
-                        Cancelar
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- ================================= -->
-            <!-- LISTA DE PRODUTOS -->
-            <!-- ================================= -->
-
-            <h3 class="mb-3">
-                Produtos
-            </h3>
-
-            <div
-                id="lista-produtos"
-                class="row">
-
-                <div class="col-12 text-center">
-                    <p class="text-muted">
-                        Carregando produtos...
-                    </p>
-                </div>
-
-            </div>
-
-        </main>
-
-
-        <!-- FOOTER -->
-
-        <footer class="bg-dark text-white py-4 mt-5">
-
-            <div class="container text-center">
-
-                <p class="mb-1">
-                    © 2026 Ascenda Project
+                <p>
+                    Conteúdos, ferramentas e experiências para ajudar
+                    você a desenvolver sua mente, adquirir conhecimento
+                    e evoluir todos os dias.
                 </p>
 
-                <small>
-                    Painel Administrativo
-                </small>
+                <div class="buttons">
+                    <a href="produtos.html" class="btn primary">
+                        Conhecer produtos
+                    </a>
+
+                    <a href="como.html" class="btn secondary">
+                        Como funciona
+                    </a>
+                </div>
 
             </div>
 
-        </footer>
-
-    </div>
+        </section>
 
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
-    </script>
+        <!-- SOBRE O PROJETO -->
+        <section class="about">
+
+            <span class="tag">SOBRE O PROJETO</span>
+
+            <h2>
+                Um espaço para evolução.
+            </h2>
+
+            <p>
+                O Ascenda Project reúne conteúdos e produtos voltados
+                para desenvolvimento pessoal, inteligência emocional,
+                reflexões, conhecimento e novas formas de aprender.
+            </p>
+
+        </section>
+
+
+        <!-- ÁREAS -->
+        <section class="areas">
+
+            <div class="card">
+                <span>01</span>
+                <h3>Desenvolvimento pessoal</h3>
+                <p>
+                    Conteúdos para ajudar você a refletir,
+                    aprender e desenvolver novos hábitos.
+                </p>
+            </div>
+
+            <div class="card">
+                <span>02</span>
+                <h3>Conhecimento</h3>
+                <p>
+                    Ideias, informações e conteúdos para
+                    expandir sua visão sobre diferentes assuntos.
+                </p>
+            </div>
+
+            <div class="card">
+                <span>03</span>
+                <h3>Ferramentas</h3>
+                <p>
+                    Recursos e experiências pensados para
+                    facilitar sua jornada de evolução.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- RODAPÉ -->
+    <footer>
+
+        <div class="logo">
+            ASCENDA
+        </div>
+
+        <p>
+            © 2026 Ascenda Project. Todos os direitos reservados.
+        </p>
+
+    </footer>
 
 </body>
-
 </html>
+```
