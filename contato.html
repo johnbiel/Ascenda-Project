@@ -1,274 +1,161 @@
-
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="contatos.css">
-    <title>Contato | Evolua</title>
 
-    <meta
-        name="description"
-        content="Entre em contato com a Evolua."
-    >
+    <title>Contato | Ascenda Project</title>
 
-    <link rel="stylesheet" href="contato.css">
+    <link rel="stylesheet" href="contatos.css">
 </head>
 
 <body>
 
-    <!-- CABEÇALHO -->
-
     <header class="header">
-
-        <div class="container nav">
-
-            <a href="index.html" class="logo">
-                EVOLUA
-            </a>
-
-            <nav>
-                <a href="index.html">Início</a>
-                <a href="produtos.html">Produtos</a>
-                <a href="reflexoes.html">Reflexões</a>
-                <a href="sobre.html">Sobre</a>
-                <a href="contato.html" class="active">
-                    Contato
-                </a>
-            </nav>
-
-            <a href="produtos.html" class="btn btn-small">
-                Ver produtos
-            </a>
-
+        <div class="logo">
+            <a href="index.html">ASCENDA</a>
         </div>
 
+        <nav class="nav">
+            <a href="index.html">Início</a>
+            <a href="produtos.html">Produtos</a>
+            <a href="como.html">Como funciona</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contato.html" class="active">Contato</a>
+        </nav>
     </header>
-
-
-    <!-- CONTEÚDO -->
 
     <main>
 
-        <section class="contact-hero">
+        <section class="contato-hero">
+            <span class="tag">CONTATO</span>
 
-            <div class="container">
+            <h1>
+                Vamos <span>conversar.</span>
+            </h1>
 
-                <span class="tag">
-                    ENTRE EM CONTATO
-                </span>
+            <p>
+                Entre em contato comigo ou acompanhe o Ascenda
+                pelas redes sociais.
+            </p>
+        </section>
 
-                <h1>
-                    Fale com a
-                    <span>Evolua.</span>
-                </h1>
+        <section class="contato-area">
+
+            <div class="contato-info">
+
+                <h2>Minhas redes.</h2>
 
                 <p>
-                    Tem alguma dúvida, sugestão ou precisa de ajuda?
-                    Entre em contato conosco.
+                    Acompanhe conteúdos, novidades e projetos
+                    através das minhas redes sociais.
                 </p>
 
-            </div>
+                <div class="redes">
 
-        </section>
+                    <a href="https://instagram.com/SEU_USUARIO"
+                       target="_blank"
+                       class="rede">
 
-
-        <section class="contact-section">
-
-            <div class="container contact-grid">
-
-
-                <!-- INFORMAÇÕES -->
-
-                <div class="contact-info">
-
-                    <span class="tag">
-                        FALE CONOSCO
-                    </span>
-
-                    <h2>
-                        Como podemos ajudar?
-                    </h2>
-
-                    <p>
-                        Escolha um dos canais abaixo para entrar
-                        em contato com a equipe Evolua.
-                    </p>
-
-
-                    <div class="contact-item">
-
-                        <span>01</span>
+                        <div class="rede-icon">◎</div>
 
                         <div>
-
-                            <h3>
-                                E-mail
-                            </h3>
-
-                            <p>
-                                contato@evolua.com
-                            </p>
-
+                            <h3>Instagram</h3>
+                            <p>@SEU_USUARIO</p>
                         </div>
 
-                    </div>
+                        <span class="seta">↗</span>
+                    </a>
 
+                    <a href="https://youtube.com/@SEU_CANAL"
+                       target="_blank"
+                       class="rede">
 
-                    <div class="contact-item">
-
-                        <span>02</span>
+                        <div class="rede-icon">▶</div>
 
                         <div>
-
-                            <h3>
-                                Instagram
-                            </h3>
-
-                            <p>
-                                @evolua
-                            </p>
-
+                            <h3>YouTube</h3>
+                            <p>@SEU_CANAL</p>
                         </div>
 
-                    </div>
+                        <span class="seta">↗</span>
+                    </a>
 
+                    <a href="https://www.tiktok.com/@SEU_USUARIO"
+                       target="_blank"
+                       class="rede">
 
-                    <div class="contact-item">
-
-                        <span>03</span>
+                        <div class="rede-icon">♪</div>
 
                         <div>
-
-                            <h3>
-                                Atendimento
-                            </h3>
-
-                            <p>
-                                Envie sua mensagem através
-                                do formulário.
-                            </p>
-
+                            <h3>TikTok</h3>
+                            <p>@SEU_USUARIO</p>
                         </div>
 
-                    </div>
+                        <span class="seta">↗</span>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/SEU_USUARIO"
+                       target="_blank"
+                       class="rede">
+
+                        <div class="rede-icon">in</div>
+
+                        <div>
+                            <h3>LinkedIn</h3>
+                            <p>Meu perfil</p>
+                        </div>
+
+                        <span class="seta">↗</span>
+                    </a>
 
                 </div>
 
+            </div>
 
-                <!-- FORMULÁRIO -->
+            <div class="contato-form">
 
-                <div class="contact-form">
+                <h2>Envie uma mensagem</h2>
 
-                    <form id="contactForm">
+                <form id="contactForm">
 
-                        <div class="form-group">
-
-                            <label for="nome">
-                                Nome
-                            </label>
-
-                            <input
-                                type="text"
-                                id="nome"
-                                name="nome"
-                                placeholder="Seu nome"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="email">
-                                E-mail
-                            </label>
-
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="seuemail@email.com"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="assunto">
-                                Assunto
-                            </label>
-
-                            <input
-                                type="text"
-                                id="assunto"
-                                name="assunto"
-                                placeholder="Assunto"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="mensagem">
-                                Mensagem
-                            </label>
-
-                            <textarea
-                                id="mensagem"
-                                name="mensagem"
-                                rows="7"
-                                placeholder="Digite sua mensagem..."
-                                required
-                            ></textarea>
-
-                        </div>
-
-
-                        <button
-                            type="submit"
-                            class="btn submit-button"
+                    <div class="campo">
+                        <label for="nome">Nome</label>
+                        <input
+                            type="text"
+                            id="nome"
+                            placeholder="Seu nome"
+                            required
                         >
-                            Enviar mensagem →
-                        </button>
+                    </div>
 
-                        <p
-                            id="formMessage"
-                            class="form-message"
-                        ></p>
+                    <div class="campo">
+                        <label for="email">E-mail</label>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="seuemail@email.com"
+                            required
+                        >
+                    </div>
 
-                    </form>
+                    <div class="campo">
+                        <label for="mensagem">Mensagem</label>
+                        <textarea
+                            id="mensagem"
+                            placeholder="Escreva sua mensagem..."
+                            required
+                        ></textarea>
+                    </div>
 
-                </div>
+                    <button type="submit">
+                        Enviar mensagem →
+                    </button>
 
-            </div>
+                    <p id="status"></p>
 
-        </section>
-
-
-        <!-- CHAMADA -->
-
-        <section class="contact-cta">
-
-            <div class="container">
-
-                <span class="tag">
-                    EVOLUA
-                </span>
-
-                <h2>
-                    Estamos aqui para ajudar.
-                </h2>
-
-                <a href="produtos.html" class="btn">
-                    Conhecer produtos
-                </a>
+                </form>
 
             </div>
 
@@ -276,58 +163,28 @@
 
     </main>
 
-
-    <!-- RODAPÉ -->
-
     <footer class="footer">
-
-        <div class="container footer-content">
-
-            <div>
-
-                <div class="logo">
-                    EVOLUA
-                </div>
-
-                <p>
-                    Conhecimento que transforma.
-                </p>
-
-            </div>
-
-
-            <div class="footer-links">
-
-                <a href="index.html">
-                    Início
-                </a>
-
-                <a href="produtos.html">
-                    Produtos
-                </a>
-
-                <a href="sobre.html">
-                    Sobre
-                </a>
-
-                <a href="contato.html">
-                    Contato
-                </a>
-
-            </div>
-
+        <div>
+            <strong>ASCENDA</strong>
+            <p>Transforme sua mente. Transforme sua vida.</p>
         </div>
 
-
-        <div class="container copyright">
-
-            <p>
-                © 2026 Evolua. Todos os direitos reservados.
-            </p>
-
-        </div>
-
+        <p>© 2026 Ascenda Project</p>
     </footer>
+
+    <script>
+        const form = document.getElementById("contactForm");
+        const status = document.getElementById("status");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            status.textContent = "Mensagem enviada com sucesso!";
+            status.className = "sucesso";
+
+            form.reset();
+        });
+    </script>
 
 </body>
 </html>
