@@ -1,134 +1,810 @@
 ```html
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Ascenda Project</title>
+  <title>Loja Online</title>
 
-    <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script src="js/firebase-config.js"></script>
+  <script defer src="js/main.js"></script>
+
+  <style>
+
+    :root {
+      --primary: #111111;
+      --secondary: #666666;
+      --background: #f6f7f9;
+      --card: #ffffff;
+      --border: #e7e7e7;
+      --success: #198754;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: #161616;
+      transition: .3s ease;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar {
+      background: rgba(255,255,255,.95) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      min-height: 72px;
+    }
+
+    .navbar-brand {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -.4px;
+      color: #111 !important;
+    }
+
+    .navbar-brand span {
+      margin-right: 6px;
+    }
+
+    .navbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navbar .btn {
+      border-radius: 9px;
+      font-weight: 600;
+      padding: 9px 16px;
+    }
+
+    /* =========================
+       MODO ESCURO
+    ========================= */
+
+    .dark-mode {
+      background: #101114 !important;
+      color: #f1f1f1 !important;
+    }
+
+    .dark-mode .navbar {
+      background: #18191d !important;
+      border-color: #292a2f;
+    }
+
+    .dark-mode .navbar-brand {
+      color: #fff !important;
+    }
+
+    .dark-mode .search-box,
+    .dark-mode .cart-section,
+    .dark-mode .card {
+      background: #18191d !important;
+      color: #fff;
+      border-color: #292a2f;
+    }
+
+    .dark-mode .card-text {
+      color: #aaa !important;
+    }
+
+    .dark-mode .form-control {
+      background: #222328;
+      color: #fff;
+      border-color: #36373d;
+    }
+
+    .dark-mode .form-control::placeholder {
+      color: #888;
+    }
+
+    .dark-mode .list-group-item {
+      background: #18191d;
+      color: #fff;
+      border-color: #292a2f;
+    }
+
+    .dark-mode .section-description {
+      color: #aaa;
+    }
+
+    /* =========================
+       SWITCH
+    ========================= */
+
+    .theme-switch {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .theme-switch label {
+      font-size: .9rem;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .form-check-input {
+      cursor: pointer;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      padding: 55px 0 35px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: #111;
+      color: #fff;
+      padding: 7px 13px;
+      border-radius: 50px;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -1.8px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      max-width: 600px;
+      color: #777;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    /* =========================
+       BUSCA
+    ========================= */
+
+    .search-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 40px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.04);
+    }
+
+    .search-title {
+      font-size: .85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: #777;
+      margin-bottom: 15px;
+    }
+
+    .form-control {
+      height: 48px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      padding: 0 15px;
+      transition: .2s;
+    }
+
+    .form-control:focus {
+      border-color: #111;
+      box-shadow: 0 0 0 3px rgba(0,0,0,.07);
+    }
+
+    .filter-btn {
+      height: 48px;
+      border: 0;
+      border-radius: 10px;
+      background: #111;
+      color: #fff;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .filter-btn:hover {
+      background: #333;
+      transform: translateY(-1px);
+    }
+
+    /* =========================
+       PRODUTOS
+    ========================= */
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 22px;
+    }
+
+    .section-header h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -.5px;
+    }
+
+    .section-description {
+      color: #777;
+      margin: 5px 0 0;
+      font-size: .92rem;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      height: 100%;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 35px rgba(0,0,0,.10);
+    }
+
+    .card img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    .card-title {
+      font-weight: 750;
+      font-size: 1.1rem;
+      margin-bottom: 9px;
+    }
+
+    .card-text {
+      color: #777;
+      font-size: .92rem;
+      line-height: 1.6;
+    }
+
+    .card .btn {
+      border-radius: 9px;
+      font-weight: 700;
+      padding: 10px 15px;
+    }
+
+    /* =========================
+       CARRINHO
+    ========================= */
+
+    .cart-section {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 25px;
+      margin-top: 55px;
+      margin-bottom: 60px;
+    }
+
+    .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .cart-header h2 {
+      margin: 0;
+      font-size: 1.45rem;
+      font-weight: 800;
+    }
+
+    #carrinho {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    #carrinho .list-group-item {
+      padding: 15px;
+      border-color: var(--border);
+    }
+
+    #carrinho:empty::after {
+      content: "Seu carrinho está vazio.";
+      display: block;
+      text-align: center;
+      padding: 30px;
+      color: #888;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      height: 50px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--success);
+      color: white;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .checkout-btn:hover {
+      background: #157347;
+      transform: translateY(-1px);
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal-content {
+      border: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0,0,0,.25);
+    }
+
+    .modal-header {
+      padding: 22px 25px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .modal-title {
+      font-weight: 800;
+    }
+
+    .modal-body {
+      padding: 25px;
+    }
+
+    .modal-body .form-control {
+      margin-bottom: 12px;
+    }
+
+    .modal-body .btn {
+      height: 46px;
+      border-radius: 9px;
+      font-weight: 700;
+    }
+
+    .modal-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+      color: #999;
+      font-size: .8rem;
+    }
+
+    .modal-divider::before,
+    .modal-divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: #ddd;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: #111 !important;
+      padding: 35px 0 !important;
+      margin-top: 0 !important;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    footer .copyright {
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    footer small {
+      color: #999;
+    }
+
+    /* =========================
+       RESPONSIVO
+    ========================= */
+
+    @media (max-width: 768px) {
+
+      .navbar {
+        min-height: auto;
+        padding: 14px 0;
+      }
+
+      .navbar .container {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .navbar-actions {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero {
+        padding: 35px 0 25px;
+      }
+
+      .hero h1 {
+        font-size: 2.25rem;
+      }
+
+      .search-box {
+        padding: 18px;
+      }
+
+      .section-header {
+        display: block;
+      }
+
+      .card img {
+        height: 200px;
+      }
+
+      .cart-section {
+        padding: 18px;
+      }
+    }
+
+  </style>
 </head>
 
 <body>
 
-    <!-- CABEÇALHO -->
-    <header>
-        <div class="logo">
-            ASCENDA
-        </div>
+  <!-- NAVBAR -->
 
-        <nav>
-            <a href="index.html">Início</a>
-            <a href="produtos.html">Produtos</a>
-            <a href="como.html">Como funciona</a>
-            <a href="sobre.html">Sobre</a>
-            <a href="contato.html">Contato</a>
-        </nav>
-    </header>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container d-flex justify-content-between align-items-center">
 
+      <a class="navbar-brand" href="https://professorjacksonmarques.github.io/firebase/index.html">
+        <span>🛍️</span> Loja Online
+      </a>
 
-    <!-- ÁREA PRINCIPAL -->
-    <main>
+      <div class="navbar-actions">
 
-        <section class="hero">
+        <button
+          class="btn btn-outline-secondary d-none"
+          id="btn-admin"
+          onclick="window.location.href='admin.html'">
+          Admin
+        </button>
 
-            <div class="hero-text">
+        <button
+          class="btn btn-outline-dark"
+          id="btn-login"
+          onclick="abrirLogin()">
+          Entrar
+        </button>
 
-                <span class="tag">ASCENDA PROJECT</span>
+        <button
+          class="btn btn-outline-secondary d-none"
+          id="btn-logout"
+          onclick="logout()">
+          Sair
+        </button>
 
-                <h1>
-                    Transforme sua mente.
-                    <br>
-                    Transforme sua vida.
-                </h1>
+      </div>
 
-                <p>
-                    Conteúdos, ferramentas e experiências para ajudar
-                    você a desenvolver sua mente, adquirir conhecimento
-                    e evoluir todos os dias.
-                </p>
-
-                <div class="buttons">
-                    <a href="produtos.html" class="btn primary">
-                        Conhecer produtos
-                    </a>
-
-                    <a href="como.html" class="btn secondary">
-                        Como funciona
-                    </a>
-                </div>
-
-            </div>
-
-        </section>
+    </div>
+  </nav>
 
 
-        <!-- SOBRE O PROJETO -->
-        <section class="about">
+  <!-- MODO ESCURO -->
 
-            <span class="tag">SOBRE O PROJETO</span>
+  <div class="container">
+    <div class="theme-switch">
 
-            <h2>
-                Um espaço para evolução.
-            </h2>
+      <input
+        class="form-check-input"
+        id="modoEscuroToggle"
+        onchange="alternarModoEscuro()"
+        type="checkbox">
 
-            <p>
-                O Ascenda Project reúne conteúdos e produtos voltados
-                para desenvolvimento pessoal, inteligência emocional,
-                reflexões, conhecimento e novas formas de aprender.
-            </p>
+      <label for="modoEscuroToggle">
+        Modo escuro
+      </label>
 
-        </section>
-
-
-        <!-- ÁREAS -->
-        <section class="areas">
-
-            <div class="card">
-                <span>01</span>
-                <h3>Desenvolvimento pessoal</h3>
-                <p>
-                    Conteúdos para ajudar você a refletir,
-                    aprender e desenvolver novos hábitos.
-                </p>
-            </div>
-
-            <div class="card">
-                <span>02</span>
-                <h3>Conhecimento</h3>
-                <p>
-                    Ideias, informações e conteúdos para
-                    expandir sua visão sobre diferentes assuntos.
-                </p>
-            </div>
-
-            <div class="card">
-                <span>03</span>
-                <h3>Ferramentas</h3>
-                <p>
-                    Recursos e experiências pensados para
-                    facilitar sua jornada de evolução.
-                </p>
-            </div>
-
-        </section>
-
-    </main>
+    </div>
+  </div>
 
 
-    <!-- RODAPÉ -->
-    <footer>
+  <!-- HERO -->
 
-        <div class="logo">
-            ASCENDA
-        </div>
+  <main>
+
+    <section class="hero">
+
+      <div class="container">
+
+        <span class="hero-badge">
+          LOJA ONLINE
+        </span>
+
+        <h1>
+          Encontre o que<br>
+          você procura.
+        </h1>
 
         <p>
-            © 2026 Ascenda Project. Todos os direitos reservados.
+          Explore nossos produtos, encontre as melhores opções
+          e finalize sua compra de forma simples e segura.
         </p>
 
-    </footer>
+      </div>
+
+    </section>
+
+
+    <!-- BUSCA -->
+
+    <section class="container">
+
+      <div class="search-box">
+
+        <div class="search-title">
+          🔎 Encontrar produtos
+        </div>
+
+        <div class="row g-3">
+
+          <div class="col-lg-4 col-md-6">
+            <input
+              class="form-control"
+              id="busca"
+              placeholder="Buscar por nome"
+              type="text">
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <input
+              class="form-control"
+              id="precoMin"
+              placeholder="Preço mínimo"
+              type="number">
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <input
+              class="form-control"
+              id="precoMax"
+              placeholder="Preço máximo"
+              type="number">
+          </div>
+
+          <div class="col-lg-2 col-md-6">
+            <button
+              class="filter-btn w-100"
+              onclick="aplicarFiltros()">
+              Filtrar
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PRODUTOS -->
+
+    <section class="container">
+
+      <div class="section-header">
+
+        <div>
+          <h2>Produtos</h2>
+
+          <p class="section-description">
+            Confira os produtos disponíveis em nossa loja.
+          </p>
+        </div>
+
+      </div>
+
+      <div
+        class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4"
+        id="produtos">
+      </div>
+
+    </section>
+
+
+    <!-- CARRINHO -->
+
+    <section class="container">
+
+      <div class="cart-section">
+
+        <div class="cart-header">
+
+          <h2>
+            🛒 Meu Carrinho
+          </h2>
+
+        </div>
+
+        <ul
+          class="list-group mb-4"
+          id="carrinho">
+        </ul>
+
+        <button
+          class="checkout-btn"
+          onclick="finalizarCompra()">
+          Finalizar Compra
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- LOGIN -->
+
+  <div
+    class="modal fade"
+    id="loginModal"
+    tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <div>
+            <h5 class="modal-title">
+              Acesso ao sistema
+            </h5>
+
+            <small class="text-muted">
+              Entre na sua conta para continuar
+            </small>
+          </div>
+
+          <button
+            class="btn-close"
+            data-bs-dismiss="modal"
+            type="button">
+          </button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <input
+            class="form-control"
+            id="email"
+            placeholder="Seu email"
+            type="email">
+
+          <input
+            class="form-control"
+            id="senha"
+            placeholder="Sua senha"
+            type="password">
+
+          <button
+            class="btn btn-dark w-100"
+            onclick="login()">
+            Entrar
+          </button>
+
+
+          <div class="modal-divider">
+            ou
+          </div>
+
+
+          <input
+            class="form-control"
+            id="emailCadastro"
+            placeholder="Novo email"
+            type="email">
+
+          <input
+            class="form-control"
+            id="senhaCadastro"
+            placeholder="Crie uma senha"
+            type="password">
+
+          <button
+            class="btn btn-success w-100"
+            onclick="cadastrar()">
+            Criar conta
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- FOOTER -->
+
+  <footer class="text-light">
+
+    <div class="container text-center">
+
+      <p class="copyright">
+        © 2026 Loja Online
+      </p>
+
+      <small>
+        Desenvolvido com Firebase & Bootstrap
+      </small>
+
+    </div>
+
+  </footer>
+
+
+  <!-- BOOTSTRAP -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- FUNÇÕES -->
+
+  <script>
+
+    function alternarModoEscuro() {
+
+      document.body.classList.toggle("dark-mode");
+
+      const cards = document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        card.classList.toggle("dark-card");
+      });
+
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+      carregarProdutos();
+
+    });
+
+  </script>
 
 </body>
 </html>
