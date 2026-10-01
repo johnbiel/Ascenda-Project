@@ -1,9 +1,4 @@
 
-Esses ``` precisam ser removidos.
-
-### Substitua TODO o seu `admin.js` por este:
-
-```javascript
 /* global firebase */
 
 const auth = firebase.auth();
