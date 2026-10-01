@@ -1,3 +1,11 @@
+
+Esses ``` precisam ser removidos.
+
+### Substitua TODO o seu `admin.js` por este:
+
+```javascript
+/* global firebase */
+
 const auth = firebase.auth();
 const db = firebase.firestore();
 
@@ -25,480 +33,432 @@ const productMessage = document.getElementById("productMessage");
 const productsList = document.getElementById("productsList");
 
 const saveProductButton =
-document.getElementById("saveProductButton");
+    document.getElementById("saveProductButton");
 
 const cancelEditButton =
-document.getElementById("cancelEditButton");
+    document.getElementById("cancelEditButton");
+
 
 loginArea.style.display = "flex";
 adminLayout.style.display = "none";
 
+
 auth.onAuthStateChanged(async (user) => {
 
-```
-if (!user) {
-    loginArea.style.display = "flex";
-    adminLayout.style.display = "none";
-    return;
-}
-
-try {
-
-    const userDoc = await db
-        .collection("usuario")
-        .doc(user.uid)
-        .get();
-
-    if (!userDoc.exists) {
-
-        await auth.signOut();
-
-        loginMessage.textContent =
-            "Usuário administrativo não encontrado.";
-
+    if (!user) {
+        loginArea.style.display = "flex";
+        adminLayout.style.display = "none";
         return;
     }
 
-    const userData = userDoc.data();
+    try {
 
-    if (userData.perfil !== "admin") {
+        const userDoc = await db
+            .collection("usuario")
+            .doc(user.uid)
+            .get();
 
-        await auth.signOut();
+        if (!userDoc.exists) {
+
+            await auth.signOut();
+
+            loginMessage.textContent =
+                "Usuário administrativo não encontrado.";
+
+            return;
+        }
+
+        const userData = userDoc.data();
+
+        if (userData.perfil !== "admin") {
+
+            await auth.signOut();
+
+            loginMessage.textContent =
+                "Você não possui permissão de administrador.";
+
+            return;
+        }
+
+        loginArea.style.display = "none";
+        adminLayout.style.display = "block";
+
+        carregarProdutos();
+
+    } catch (error) {
+
+        console.error(error);
 
         loginMessage.textContent =
-            "Você não possui permissão de administrador.";
-
-        return;
+            "Erro ao verificar administrador.";
     }
-
-    loginArea.style.display = "none";
-    adminLayout.style.display = "block";
-
-    carregarProdutos();
-
-} catch (error) {
-
-    console.error(error);
-
-    loginMessage.textContent =
-        "Erro ao verificar administrador.";
-
-}
-```
-
 });
+
 
 loginForm.addEventListener("submit", async (event) => {
 
-```
-event.preventDefault();
+    event.preventDefault();
 
-loginMessage.textContent = "Entrando...";
+    loginMessage.textContent = "Entrando...";
 
-try {
+    try {
 
-    await auth.signInWithEmailAndPassword(
-        email.value.trim(),
-        password.value
-    );
+        await auth.signInWithEmailAndPassword(
+            email.value.trim(),
+            password.value
+        );
 
-    loginMessage.textContent = "";
+        loginMessage.textContent = "";
 
-} catch (error) {
+    } catch (error) {
 
-    console.error(error);
+        console.error(error);
 
-    if (
-        error.code === "auth/invalid-credential" ||
-        error.code === "auth/wrong-password" ||
-        error.code === "auth/user-not-found"
-    ) {
+        if (
+            error.code === "auth/invalid-credential" ||
+            error.code === "auth/wrong-password" ||
+            error.code === "auth/user-not-found"
+        ) {
 
-        loginMessage.textContent =
-            "E-mail ou senha incorretos.";
+            loginMessage.textContent =
+                "E-mail ou senha incorretos.";
 
-    } else {
+        } else {
 
-        loginMessage.textContent =
-            "Não foi possível entrar.";
-
+            loginMessage.textContent =
+                "Não foi possível entrar.";
+        }
     }
-
-}
-```
-
 });
+
 
 logoutButton.addEventListener("click", async () => {
 
-```
-try {
+    try {
 
-    await auth.signOut();
+        await auth.signOut();
 
-} catch (error) {
+    } catch (error) {
 
-    console.error(error);
-
-}
-```
-
+        console.error(error);
+    }
 });
+
 
 productForm.addEventListener("submit", async (event) => {
 
-```
-event.preventDefault();
+    event.preventDefault();
 
-const nome = productName.value.trim();
-const tipo = productType.value;
-const preco = Number(productPrice.value);
-const status = productStatus.value;
-const descricao = productDescription.value.trim();
-const imagem = productImage.value.trim();
-const link = productLink.value.trim();
+    const nome = productName.value.trim();
+    const tipo = productType.value;
+    const preco = Number(productPrice.value);
+    const status = productStatus.value;
+    const descricao = productDescription.value.trim();
+    const imagem = productImage.value.trim();
+    const link = productLink.value.trim();
 
-if (!nome || !tipo || !descricao) {
-
-    productMessage.textContent =
-        "Preencha os campos obrigatórios.";
-
-    return;
-}
-
-saveProductButton.disabled = true;
-saveProductButton.textContent = "Salvando...";
-
-try {
-
-    const produto = {
-
-        nome: nome,
-        tipo: tipo,
-        preco: preco,
-        status: status,
-        descricao: descricao,
-        imagem: imagem,
-        link: link,
-
-        atualizadoEm:
-            firebase.firestore.FieldValue.serverTimestamp()
-
-    };
-
-
-    if (productId.value) {
-
-        await db
-            .collection("produtos")
-            .doc(productId.value)
-            .update(produto);
+    if (!nome || !tipo || !descricao) {
 
         productMessage.textContent =
-            "Produto atualizado com sucesso.";
+            "Preencha os campos obrigatórios.";
 
-    } else {
-
-        produto.criadoEm =
-            firebase.firestore.FieldValue.serverTimestamp();
-
-        await db
-            .collection("produtos")
-            .add(produto);
-
-        productMessage.textContent =
-            "Produto adicionado com sucesso.";
+        return;
     }
 
+    saveProductButton.disabled = true;
+    saveProductButton.textContent = "Salvando...";
 
-    limparFormulario();
+    try {
 
-    carregarProdutos();
+        const produto = {
 
-} catch (error) {
+            nome: nome,
+            tipo: tipo,
+            preco: preco,
+            status: status,
+            descricao: descricao,
+            imagem: imagem,
+            link: link,
 
-    console.error(error);
+            atualizadoEm:
+                firebase.firestore.FieldValue.serverTimestamp()
+        };
 
-    productMessage.textContent =
-        "Erro ao salvar o produto.";
+        if (productId.value) {
 
-} finally {
+            await db
+                .collection("produtos")
+                .doc(productId.value)
+                .update(produto);
 
-    saveProductButton.disabled = false;
+            productMessage.textContent =
+                "Produto atualizado com sucesso.";
 
-    saveProductButton.textContent =
-        "Adicionar produto";
+        } else {
 
-}
-```
+            produto.criadoEm =
+                firebase.firestore.FieldValue.serverTimestamp();
 
+            await db
+                .collection("produtos")
+                .add(produto);
+
+            productMessage.textContent =
+                "Produto adicionado com sucesso.";
+        }
+
+        limparFormulario();
+        carregarProdutos();
+
+    } catch (error) {
+
+        console.error(error);
+
+        productMessage.textContent =
+            "Erro ao salvar o produto.";
+
+    } finally {
+
+        saveProductButton.disabled = false;
+
+        saveProductButton.textContent =
+            "Adicionar produto";
+    }
 });
+
 
 cancelEditButton.addEventListener("click", () => {
 
-```
-limparFormulario();
-```
+    limparFormulario();
 
 });
 
+
 async function carregarProdutos() {
 
-```
-productsList.innerHTML = `
-    <div class="loading">
-        Carregando produtos...
-    </div>
-`;
-
-try {
-
-    const snapshot = await db
-        .collection("produtos")
-        .orderBy("criadoEm", "desc")
-        .get();
-
-    if (snapshot.empty) {
-
-        productsList.innerHTML = `
-            <div class="empty">
-                Nenhum produto cadastrado ainda.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    productsList.innerHTML = "";
-
-
-    snapshot.forEach((doc) => {
-
-        const produto = doc.data();
-
-        const card = document.createElement("article");
-
-        card.className = "admin-product-card";
-
-
-        const preco = Number(produto.preco || 0);
-
-        const precoFormatado =
-            preco > 0
-                ? preco.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
-                })
-                : "Grátis";
-
-
-        card.innerHTML = `
-
-            <div class="admin-product-image">
-
-                ${
-                    produto.imagem
-                        ? `<img src="${produto.imagem}" alt="${escapeHTML(produto.nome)}">`
-                        : `<span>EVOLUA</span>`
-                }
-
-            </div>
-
-
-            <div class="admin-product-content">
-
-                <span class="product-type">
-                    ${escapeHTML(produto.tipo || "Produto")}
-                </span>
-
-                <h3>
-                    ${escapeHTML(produto.nome || "Sem nome")}
-                </h3>
-
-                <p>
-                    ${escapeHTML(produto.descricao || "")}
-                </p>
-
-
-                <div class="admin-product-info">
-
-                    <strong>
-                        ${precoFormatado}
-                    </strong>
-
-                    <span>
-                        ${escapeHTML(produto.status || "Disponível")}
-                    </span>
-
-                </div>
-
-
-                <div class="admin-product-actions">
-
-                    <button
-                        class="btn btn-edit"
-                        onclick="editarProduto('${doc.id}')"
-                    >
-                        Editar
-                    </button>
-
-                    <button
-                        class="btn btn-delete"
-                        onclick="excluirProduto('${doc.id}')"
-                    >
-                        Excluir
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        productsList.appendChild(card);
-
-    });
-
-} catch (error) {
-
-    console.error(error);
-
     productsList.innerHTML = `
-        <div class="empty">
-            Não foi possível carregar os produtos.
+        <div class="loading">
+            Carregando produtos...
         </div>
     `;
 
-}
-```
+    try {
 
+        const snapshot = await db
+            .collection("produtos")
+            .orderBy("criadoEm", "desc")
+            .get();
+
+        if (snapshot.empty) {
+
+            productsList.innerHTML = `
+                <div class="empty">
+                    Nenhum produto cadastrado ainda.
+                </div>
+            `;
+
+            return;
+        }
+
+        productsList.innerHTML = "";
+
+        snapshot.forEach((doc) => {
+
+            const produto = doc.data();
+
+            const card = document.createElement("article");
+
+            card.className = "admin-product-card";
+
+            const preco = Number(produto.preco || 0);
+
+            const precoFormatado =
+                preco > 0
+                    ? preco.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL"
+                    })
+                    : "Grátis";
+
+            card.innerHTML = `
+
+                <div class="admin-product-image">
+
+                    ${
+                        produto.imagem
+                            ? `<img src="${produto.imagem}" alt="${escapeHTML(produto.nome)}">`
+                            : `<span>EVOLUA</span>`
+                    }
+
+                </div>
+
+                <div class="admin-product-content">
+
+                    <span class="product-type">
+                        ${escapeHTML(produto.tipo || "Produto")}
+                    </span>
+
+                    <h3>
+                        ${escapeHTML(produto.nome || "Sem nome")}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(produto.descricao || "")}
+                    </p>
+
+                    <div class="admin-product-info">
+
+                        <strong>
+                            ${precoFormatado}
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(produto.status || "Disponível")}
+                        </span>
+
+                    </div>
+
+                    <div class="admin-product-actions">
+
+                        <button
+                            class="btn btn-edit"
+                            onclick="editarProduto('${doc.id}')"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            class="btn btn-delete"
+                            onclick="excluirProduto('${doc.id}')"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+            productsList.appendChild(card);
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        productsList.innerHTML = `
+            <div class="empty">
+                Não foi possível carregar os produtos.
+            </div>
+        `;
+    }
 }
+
 
 window.editarProduto = async function (id) {
 
-```
-try {
+    try {
 
-    const doc = await db
-        .collection("produtos")
-        .doc(id)
-        .get();
+        const doc = await db
+            .collection("produtos")
+            .doc(id)
+            .get();
 
-    if (!doc.exists) {
+        if (!doc.exists) {
+
+            productMessage.textContent =
+                "Produto não encontrado.";
+
+            return;
+        }
+
+        const produto = doc.data();
+
+        productId.value = id;
+        productName.value = produto.nome || "";
+        productType.value = produto.tipo || "";
+        productPrice.value = produto.preco || "";
+
+        productStatus.value =
+            produto.status || "Disponível";
+
+        productDescription.value =
+            produto.descricao || "";
+
+        productImage.value =
+            produto.imagem || "";
+
+        productLink.value =
+            produto.link || "";
+
+        saveProductButton.textContent =
+            "Salvar alterações";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    } catch (error) {
+
+        console.error(error);
 
         productMessage.textContent =
-            "Produto não encontrado.";
-
-        return;
+            "Erro ao carregar produto.";
     }
-
-
-    const produto = doc.data();
-
-    productId.value = id;
-
-    productName.value = produto.nome || "";
-
-    productType.value = produto.tipo || "";
-
-    productPrice.value = produto.preco || "";
-
-    productStatus.value =
-        produto.status || "Disponível";
-
-    productDescription.value =
-        produto.descricao || "";
-
-    productImage.value =
-        produto.imagem || "";
-
-    productLink.value =
-        produto.link || "";
-
-
-    saveProductButton.textContent =
-        "Salvar alterações";
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-
-} catch (error) {
-
-    console.error(error);
-
-    productMessage.textContent =
-        "Erro ao carregar produto.";
-
-}
-```
-
 };
+
 
 window.excluirProduto = async function (id) {
 
-```
-const confirmar = confirm(
-    "Tem certeza que deseja excluir este produto?"
-);
+    const confirmar = confirm(
+        "Tem certeza que deseja excluir este produto?"
+    );
 
-if (!confirmar) {
-    return;
-}
+    if (!confirmar) {
+        return;
+    }
 
+    try {
 
-try {
+        await db
+            .collection("produtos")
+            .doc(id)
+            .delete();
 
-    await db
-        .collection("produtos")
-        .doc(id)
-        .delete();
+        productMessage.textContent =
+            "Produto excluído com sucesso.";
 
-    productMessage.textContent =
-        "Produto excluído com sucesso.";
+        carregarProdutos();
 
-    carregarProdutos();
+    } catch (error) {
 
-} catch (error) {
+        console.error(error);
 
-    console.error(error);
-
-    productMessage.textContent =
-        "Erro ao excluir produto.";
-
-}
-```
-
+        productMessage.textContent =
+            "Erro ao excluir produto.";
+    }
 };
+
 
 function limparFormulario() {
 
-```
-productForm.reset();
+    productForm.reset();
 
-productId.value = "";
+    productId.value = "";
 
-productStatus.value = "Disponível";
+    productStatus.value = "Disponível";
 
-saveProductButton.textContent =
-    "Adicionar produto";
-```
-
+    saveProductButton.textContent =
+        "Adicionar produto";
 }
+
 
 function escapeHTML(text) {
 
-```
-const div = document.createElement("div");
+    const div = document.createElement("div");
 
-div.textContent = text;
+    div.textContent = text;
 
-return div.innerHTML;
-```
-
+    return div.innerHTML;
 }
