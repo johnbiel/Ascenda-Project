@@ -1,811 +1,420 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Loja Online</title>
+    <title>Painel ADM | Evolua</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="adm.css">
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <script src="js/firebase-config.js"></script>
-  <script defer src="js/main.js"></script>
-
-  <style>
-
-    :root {
-      --primary: #111111;
-      --secondary: #666666;
-      --background: #f6f7f9;
-      --card: #ffffff;
-      --border: #e7e7e7;
-      --success: #198754;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      background: var(--background);
-      color: #161616;
-      transition: .3s ease;
-    }
-
-    /* =========================
-       NAVBAR
-    ========================= */
-
-    .navbar {
-      background: rgba(255,255,255,.95) !important;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      min-height: 72px;
-    }
-
-    .navbar-brand {
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: -.4px;
-      color: #111 !important;
-    }
-
-    .navbar-brand span {
-      margin-right: 6px;
-    }
-
-    .navbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .navbar .btn {
-      border-radius: 9px;
-      font-weight: 600;
-      padding: 9px 16px;
-    }
-
-    /* =========================
-       MODO ESCURO
-    ========================= */
-
-    .dark-mode {
-      background: #101114 !important;
-      color: #f1f1f1 !important;
-    }
-
-    .dark-mode .navbar {
-      background: #18191d !important;
-      border-color: #292a2f;
-    }
-
-    .dark-mode .navbar-brand {
-      color: #fff !important;
-    }
-
-    .dark-mode .search-box,
-    .dark-mode .cart-section,
-    .dark-mode .card {
-      background: #18191d !important;
-      color: #fff;
-      border-color: #292a2f;
-    }
-
-    .dark-mode .card-text {
-      color: #aaa !important;
-    }
-
-    .dark-mode .form-control {
-      background: #222328;
-      color: #fff;
-      border-color: #36373d;
-    }
-
-    .dark-mode .form-control::placeholder {
-      color: #888;
-    }
-
-    .dark-mode .list-group-item {
-      background: #18191d;
-      color: #fff;
-      border-color: #292a2f;
-    }
-
-    .dark-mode .section-description {
-      color: #aaa;
-    }
-
-    /* =========================
-       SWITCH
-    ========================= */
-
-    .theme-switch {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 8px;
-      margin-top: 20px;
-    }
-
-    .theme-switch label {
-      font-size: .9rem;
-      color: #666;
-      cursor: pointer;
-    }
-
-    .form-check-input {
-      cursor: pointer;
-    }
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero {
-      padding: 55px 0 35px;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      background: #111;
-      color: #fff;
-      padding: 7px 13px;
-      border-radius: 50px;
-      font-size: .78rem;
-      font-weight: 700;
-      letter-spacing: .5px;
-      margin-bottom: 18px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 800;
-      letter-spacing: -1.8px;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      max-width: 600px;
-      color: #777;
-      font-size: 1.05rem;
-      line-height: 1.7;
-      margin-bottom: 0;
-    }
-
-    /* =========================
-       BUSCA
-    ========================= */
-
-    .search-box {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 40px;
-      box-shadow: 0 8px 30px rgba(0,0,0,.04);
-    }
-
-    .search-title {
-      font-size: .85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .8px;
-      color: #777;
-      margin-bottom: 15px;
-    }
-
-    .form-control {
-      height: 48px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      padding: 0 15px;
-      transition: .2s;
-    }
-
-    .form-control:focus {
-      border-color: #111;
-      box-shadow: 0 0 0 3px rgba(0,0,0,.07);
-    }
-
-    .filter-btn {
-      height: 48px;
-      border: 0;
-      border-radius: 10px;
-      background: #111;
-      color: #fff;
-      font-weight: 700;
-      transition: .2s;
-    }
-
-    .filter-btn:hover {
-      background: #333;
-      transform: translateY(-1px);
-    }
-
-    /* =========================
-       PRODUTOS
-    ========================= */
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      margin-bottom: 22px;
-    }
-
-    .section-header h2 {
-      font-size: 1.65rem;
-      font-weight: 800;
-      margin: 0;
-      letter-spacing: -.5px;
-    }
-
-    .section-description {
-      color: #777;
-      margin: 5px 0 0;
-      font-size: .92rem;
-    }
-
-    .card {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      background: #fff;
-      height: 100%;
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 15px 35px rgba(0,0,0,.10);
-    }
-
-    .card img {
-      width: 100%;
-      height: 230px;
-      object-fit: cover;
-    }
-
-    .card-body {
-      padding: 22px;
-    }
-
-    .card-title {
-      font-weight: 750;
-      font-size: 1.1rem;
-      margin-bottom: 9px;
-    }
-
-    .card-text {
-      color: #777;
-      font-size: .92rem;
-      line-height: 1.6;
-    }
-
-    .card .btn {
-      border-radius: 9px;
-      font-weight: 700;
-      padding: 10px 15px;
-    }
-
-    /* =========================
-       CARRINHO
-    ========================= */
-
-    .cart-section {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 25px;
-      margin-top: 55px;
-      margin-bottom: 60px;
-    }
-
-    .cart-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .cart-header h2 {
-      margin: 0;
-      font-size: 1.45rem;
-      font-weight: 800;
-    }
-
-    #carrinho {
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    #carrinho .list-group-item {
-      padding: 15px;
-      border-color: var(--border);
-    }
-
-    #carrinho:empty::after {
-      content: "Seu carrinho está vazio.";
-      display: block;
-      text-align: center;
-      padding: 30px;
-      color: #888;
-    }
-
-    .checkout-btn {
-      width: 100%;
-      height: 50px;
-      border: 0;
-      border-radius: 10px;
-      background: var(--success);
-      color: white;
-      font-weight: 700;
-      transition: .2s;
-    }
-
-    .checkout-btn:hover {
-      background: #157347;
-      transform: translateY(-1px);
-    }
-
-    /* =========================
-       MODAL
-    ========================= */
-
-    .modal-content {
-      border: 0;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 25px 70px rgba(0,0,0,.25);
-    }
-
-    .modal-header {
-      padding: 22px 25px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .modal-title {
-      font-weight: 800;
-    }
-
-    .modal-body {
-      padding: 25px;
-    }
-
-    .modal-body .form-control {
-      margin-bottom: 12px;
-    }
-
-    .modal-body .btn {
-      height: 46px;
-      border-radius: 9px;
-      font-weight: 700;
-    }
-
-    .modal-divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 20px 0;
-      color: #999;
-      font-size: .8rem;
-    }
-
-    .modal-divider::before,
-    .modal-divider::after {
-      content: "";
-      height: 1px;
-      flex: 1;
-      background: #ddd;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      background: #111 !important;
-      padding: 35px 0 !important;
-      margin-top: 0 !important;
-    }
-
-    footer p {
-      margin: 0;
-    }
-
-    footer .copyright {
-      font-weight: 600;
-      margin-bottom: 7px;
-    }
-
-    footer small {
-      color: #999;
-    }
-
-    /* =========================
-       RESPONSIVO
-    ========================= */
-
-    @media (max-width: 768px) {
-
-      .navbar {
-        min-height: auto;
-        padding: 14px 0;
-      }
-
-      .navbar .container {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .navbar-actions {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .hero {
-        padding: 35px 0 25px;
-      }
-
-      .hero h1 {
-        font-size: 2.25rem;
-      }
-
-      .search-box {
-        padding: 18px;
-      }
-
-      .section-header {
-        display: block;
-      }
-
-      .card img {
-        height: 200px;
-      }
-
-      .cart-section {
-        padding: 18px;
-      }
-    }
-
-  </style>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
+    <div class="login-area" id="loginArea">
 
-  <nav class="navbar navbar-expand-lg">
-    <div class="container d-flex justify-content-between align-items-center">
+        <div class="login-box">
 
-      <a class="navbar-brand" href="https://professorjacksonmarques.github.io/firebase/index.html">
-        <span>🛍️</span> Loja Online
-      </a>
+            <div class="logo">EVOLUA</div>
 
-      <div class="navbar-actions">
+            <span class="tag">ÁREA ADMINISTRATIVA</span>
 
-        <button
-          class="btn btn-outline-secondary d-none"
-          id="btn-admin"
-          onclick="window.location.href='admin.html'">
-          Admin
-        </button>
+            <h1>Painel ADM</h1>
 
-        <button
-          class="btn btn-outline-dark"
-          id="btn-login"
-          onclick="abrirLogin()">
-          Entrar
-        </button>
+            <p class="login-description">
+                Acesse o painel para gerenciar seus produtos.
+            </p>
 
-        <button
-          class="btn btn-outline-secondary d-none"
-          id="btn-logout"
-          onclick="logout()">
-          Sair
-        </button>
+            <form id="loginForm">
 
-      </div>
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="seu@email.com"
+                        required
+                    >
+                </div>
 
-    </div>
-  </nav>
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Sua senha"
+                        required
+                    >
+                </div>
 
+                <button type="submit" class="btn">
+                    Entrar
+                </button>
 
-  <!-- MODO ESCURO -->
+                <p id="loginMessage" class="message"></p>
 
-  <div class="container">
-    <div class="theme-switch">
+            </form>
 
-      <input
-        class="form-check-input"
-        id="modoEscuroToggle"
-        onchange="alternarModoEscuro()"
-        type="checkbox">
-
-      <label for="modoEscuroToggle">
-        Modo escuro
-      </label>
-
-    </div>
-  </div>
-
-
-  <!-- HERO -->
-
-  <main>
-
-    <section class="hero">
-
-      <div class="container">
-
-        <span class="hero-badge">
-          LOJA ONLINE
-        </span>
-
-        <h1>
-          Encontre o que<br>
-          você procura.
-        </h1>
-
-        <p>
-          Explore nossos produtos, encontre as melhores opções
-          e finalize sua compra de forma simples e segura.
-        </p>
-
-      </div>
-
-    </section>
-
-
-    <!-- BUSCA -->
-
-    <section class="container">
-
-      <div class="search-box">
-
-        <div class="search-title">
-          🔎 Encontrar produtos
-        </div>
-
-        <div class="row g-3">
-
-          <div class="col-lg-4 col-md-6">
-            <input
-              class="form-control"
-              id="busca"
-              placeholder="Buscar por nome"
-              type="text">
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <input
-              class="form-control"
-              id="precoMin"
-              placeholder="Preço mínimo"
-              type="number">
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <input
-              class="form-control"
-              id="precoMax"
-              placeholder="Preço máximo"
-              type="number">
-          </div>
-
-          <div class="col-lg-2 col-md-6">
-            <button
-              class="filter-btn w-100"
-              onclick="aplicarFiltros()">
-              Filtrar
-            </button>
-          </div>
+            <a href="index.html" class="back-link">
+                ← Voltar para o site
+            </a>
 
         </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- PRODUTOS -->
-
-    <section class="container">
-
-      <div class="section-header">
-
-        <div>
-          <h2>Produtos</h2>
-
-          <p class="section-description">
-            Confira os produtos disponíveis em nossa loja.
-          </p>
-        </div>
-
-      </div>
-
-      <div
-        class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4"
-        id="produtos">
-      </div>
-
-    </section>
-
-
-    <!-- CARRINHO -->
-
-    <section class="container">
-
-      <div class="cart-section">
-
-        <div class="cart-header">
-
-          <h2>
-            🛒 Meu Carrinho
-          </h2>
-
-        </div>
-
-        <ul
-          class="list-group mb-4"
-          id="carrinho">
-        </ul>
-
-        <button
-          class="checkout-btn"
-          onclick="finalizarCompra()">
-          Finalizar Compra
-        </button>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- LOGIN -->
-
-  <div
-    class="modal fade"
-    id="loginModal"
-    tabindex="-1">
-
-    <div class="modal-dialog modal-dialog-centered">
-
-      <div class="modal-content">
-
-        <div class="modal-header">
-
-          <div>
-            <h5 class="modal-title">
-              Acesso ao sistema
-            </h5>
-
-            <small class="text-muted">
-              Entre na sua conta para continuar
-            </small>
-          </div>
-
-          <button
-            class="btn-close"
-            data-bs-dismiss="modal"
-            type="button">
-          </button>
-
-        </div>
-
-        <div class="modal-body">
-
-          <input
-            class="form-control"
-            id="email"
-            placeholder="Seu email"
-            type="email">
-
-          <input
-            class="form-control"
-            id="senha"
-            placeholder="Sua senha"
-            type="password">
-
-          <button
-            class="btn btn-dark w-100"
-            onclick="login()">
-            Entrar
-          </button>
-
-
-          <div class="modal-divider">
-            ou
-          </div>
-
-
-          <input
-            class="form-control"
-            id="emailCadastro"
-            placeholder="Novo email"
-            type="email">
-
-          <input
-            class="form-control"
-            id="senhaCadastro"
-            placeholder="Crie uma senha"
-            type="password">
-
-          <button
-            class="btn btn-success w-100"
-            onclick="cadastrar()">
-            Criar conta
-          </button>
-
-        </div>
-
-      </div>
 
     </div>
 
-  </div>
+
+    <div class="admin-layout" id="adminLayout">
+
+        <header class="header">
+
+            <div class="container nav">
+
+                <a href="index.html" class="logo">
+                    EVOLUA
+                </a>
+
+                <nav>
+                    <a href="index.html">Início</a>
+                    <a href="produtos.html">Produtos</a>
+                    <a href="Como.html">Como Funciona</a>
+                    <a href="Descrição.html">Sobre</a>
+                    <a href="contato.html">Contato</a>
+                </nav>
+
+                <button id="logoutButton" class="btn btn-small">
+                    Sair
+                </button>
+
+            </div>
+
+        </header>
 
 
-  <!-- FOOTER -->
+        <main>
 
-  <footer class="text-light">
+            <section class="admin-hero">
 
-    <div class="container text-center">
+                <div class="container">
 
-      <p class="copyright">
-        © 2026 Loja Online
-      </p>
+                    <span class="tag">
+                        ÁREA ADMINISTRATIVA
+                    </span>
 
-      <small>
-        Desenvolvido com Firebase & Bootstrap
-      </small>
+                    <h1>
+                        Painel de
+                        <span>controle.</span>
+                    </h1>
+
+                    <p>
+                        Gerencie os produtos e cursos que serão
+                        exibidos na plataforma Evolua.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section class="admin-section">
+
+                <div class="container">
+
+                    <div class="section-title">
+
+                        <span class="tag">
+                            NOVO PRODUTO
+                        </span>
+
+                        <h2>
+                            Adicionar conteúdo.
+                        </h2>
+
+                        <p>
+                            Cadastre um curso, e-book ou outro produto
+                            para aparecer na área de produtos.
+                        </p>
+
+                    </div>
+
+
+                    <div class="admin-card">
+
+                        <form id="productForm">
+
+                            <input type="hidden" id="productId">
+
+
+                            <div class="form-grid">
+
+                                <div class="input-group">
+
+                                    <label for="productName">
+                                        Nome do produto
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="productName"
+                                        placeholder="Ex: Curso de Desenvolvimento Pessoal"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="input-group">
+
+                                    <label for="productType">
+                                        Tipo
+                                    </label>
+
+                                    <select id="productType" required>
+
+                                        <option value="">
+                                            Selecione
+                                        </option>
+
+                                        <option value="Curso">
+                                            Curso
+                                        </option>
+
+                                        <option value="E-book">
+                                            E-book
+                                        </option>
+
+                                        <option value="App">
+                                            Aplicativo
+                                        </option>
+
+                                        <option value="Outro">
+                                            Outro
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="input-group">
+
+                                    <label for="productPrice">
+                                        Preço
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="productPrice"
+                                        placeholder="12.00"
+                                        step="0.01"
+                                        min="0"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="input-group">
+
+                                    <label for="productStatus">
+                                        Status
+                                    </label>
+
+                                    <select id="productStatus" required>
+
+                                        <option value="Disponível">
+                                            Disponível
+                                        </option>
+
+                                        <option value="Em breve">
+                                            Em breve
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="input-group">
+
+                                <label for="productDescription">
+                                    Descrição
+                                </label>
+
+                                <textarea
+                                    id="productDescription"
+                                    placeholder="Explique brevemente o que o produto oferece..."
+                                    rows="5"
+                                    required
+                                ></textarea>
+
+                            </div>
+
+
+                            <div class="input-group">
+
+                                <label for="productImage">
+                                    URL da imagem/capa
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="productImage"
+                                    placeholder="https://..."
+                                >
+
+                                <small>
+                                    Cole aqui o endereço da imagem da capa.
+                                </small>
+
+                            </div>
+
+
+                            <div class="input-group">
+
+                                <label for="productLink">
+                                    Link do produto
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="productLink"
+                                    placeholder="https://..."
+                                >
+
+                                <small>
+                                    Link da Kiwify, página do curso ou acesso.
+                                </small>
+
+                            </div>
+
+
+                            <div class="form-actions">
+
+                                <button
+                                    type="submit"
+                                    class="btn"
+                                    id="saveProductButton"
+                                >
+                                    Adicionar produto
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-outline"
+                                    id="cancelEditButton"
+                                >
+                                    Limpar
+                                </button>
+
+                            </div>
+
+                            <p id="productMessage" class="message"></p>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="products-admin-section">
+
+                <div class="container">
+
+                    <div class="section-title">
+
+                        <span class="tag">
+                            PRODUTOS CADASTRADOS
+                        </span>
+
+                        <h2>
+                            Seus conteúdos.
+                        </h2>
+
+                        <p>
+                            Produtos cadastrados no Firebase.
+                        </p>
+
+                    </div>
+
+
+                    <div id="productsList" class="products-list">
+
+                        <div class="loading">
+                            Carregando produtos...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <footer class="footer">
+
+            <div class="container footer-content">
+
+                <div>
+
+                    <a href="index.html" class="logo">
+                        EVOLUA
+                    </a>
+
+                    <p>
+                        Conhecimento que transforma.
+                    </p>
+
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="index.html">
+                        Início
+                    </a>
+
+                    <a href="produtos.html">
+                        Produtos
+                    </a>
+
+                    <a href="Descrição.html">
+                        Sobre
+                    </a>
+
+                    <a href="contato.html">
+                        Contato
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="container copyright">
+
+                <p>
+                    © 2026 Evolua. Todos os direitos reservados.
+                </p>
+
+            </div>
+
+        </footer>
 
     </div>
 
-  </footer>
 
-
-  <!-- BOOTSTRAP -->
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
-  <!-- FUNÇÕES -->
-
-  <script>
-
-    function alternarModoEscuro() {
-
-      document.body.classList.toggle("dark-mode");
-
-      const cards = document.querySelectorAll(".card");
-
-      cards.forEach(card => {
-        card.classList.toggle("dark-card");
-      });
-
-    }
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-
-      carregarProdutos();
-
-    });
-
-  </script>
+    <script src="adm.js"></script>
 
 </body>
 </html>
-```
