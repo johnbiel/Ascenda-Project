@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   // ============================================
-  // LISTA DE E-MAILS AUTORIZADOS (ADMINS)
-  // Adicione aqui os e-mails que podem acessar
+  // E-MAIL AUTORIZADO
   // ============================================
   const ADMIN_EMAILS = [
-    "seu-email@gmail.com",          // ← troque pelo seu e-mail real
-    // "outro-admin@email.com",     // pode adicionar mais se quiser
+    "gomesdasilvajoaogabrieljg@gmail.com"
   ];
 
   // Elementos
@@ -32,31 +30,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const listStatus = document.getElementById("listStatus");
 
   if (!firebase.apps.length) {
-    loginStatus.textContent = "Erro ao carregar Firebase. Verifique o arquivo de configuração.";
-    loginStatus.className = "status error";
+    setStatus(loginStatus, "Erro ao carregar Firebase. Verifique o arquivo de configuração.", "error");
     return;
   }
 
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // ==================== AUTH ====================
+  // ==================== LOGIN ====================
 
   auth.onAuthStateChanged(async (user) => {
     if (user) {
-      // Verifica se o e-mail está na lista de admins
-      const isAdmin = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(user.email.toLowerCase());
+      const isAdmin = ADMIN_EMAILS
+        .map(e => e.toLowerCase())
+        .includes(user.email.toLowerCase());
 
       if (!isAdmin) {
-        // Não é admin → desloga e mostra erro
         await auth.signOut();
         loginArea.classList.remove("hidden");
         adminArea.classList.add("hidden");
-        setStatus(loginStatus, "Acesso negado. Este e-mail não tem permissão de administrador.", "error");
+        setStatus(loginStatus, "Acesso negado. Este e-mail não tem permissão.", "error");
         return;
       }
 
-      // É admin → libera o painel
       loginArea.classList.add("hidden");
       adminArea.classList.remove("hidden");
       adminEmail.textContent = user.email;
@@ -70,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    setStatus(loginStatus, "");
+    setStatus(loginStatus, "Entrando...");
     loginButton.disabled = true;
 
     const email = document.getElementById("email").value.trim();
@@ -78,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      // O onAuthStateChanged cuida do resto (verifica se é admin)
     } catch (error) {
       console.error(error);
       setStatus(loginStatus, getAuthErrorMessage(error.code), "error");
@@ -103,8 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
       "auth/user-not-found": "Usuário não encontrado.",
       "auth/wrong-password": "Senha incorreta.",
       "auth/invalid-credential": "E-mail ou senha incorretos.",
-      "auth/too-many-requests": "Muitas tentativas. Tente novamente mais tarde.",
-      "auth/network-request-failed": "Erro de conexão. Verifique sua internet."
+      "auth/too-many-requests": "Muitas tentativas. Tente mais tarde.",
+      "auth/network-request-failed": "Erro de conexão."
     };
     return messages[code] || "Erro ao fazer login. Tente novamente.";
   }
@@ -156,11 +151,10 @@ document.addEventListener("DOMContentLoaded", () => {
         await db.collection("produtos").add(data);
         setStatus(productStatus, "E-book cadastrado com sucesso!", "success");
       }
-
       resetForm();
     } catch (error) {
       console.error(error);
-      setStatus(productStatus, "Erro ao salvar o e-book. Tente novamente.", "error");
+      setStatus(productStatus, "Erro ao salvar o e-book.", "error");
     } finally {
       saveProductButton.disabled = false;
     }
@@ -171,56 +165,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     db.collection("produtos")
       .orderBy("createdAt", "desc")
-      .onSnapshot(
-        (snapshot) => {
-          if (snapshot.empty) {
-            productList.innerHTML = `<p class="muted">Nenhum e-book cadastrado ainda.</p>`;
-            return;
-          }
-
-          productList.innerHTML = "";
-
-          snapshot.forEach((doc) => {
-            const product = doc.data();
-            const id = doc.id;
-
-            const card = document.createElement("div");
-            card.className = "product";
-
-            card.innerHTML = `
-              <div>
-                <h3>${escapeHtml(product.title)}</h3>
-                <p>${escapeHtml(product.description)}</p>
-                <p style="margin-top: 8px; color: #b6ff5c;">
-                  ${Number(product.price).toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
-                  })}
-                </p>
-              </div>
-              <div class="product-actions">
-                <button class="button secondary btn-edit" data-id="${id}">Editar</button>
-                <button class="button danger btn-delete" data-id="${id}">Excluir</button>
-              </div>
-            `;
-
-            productList.appendChild(card);
-          });
-
-          document.querySelectorAll(".btn-edit").forEach((btn) => {
-            btn.addEventListener("click", () => editProduct(btn.dataset.id));
-          });
-
-          document.querySelectorAll(".btn-delete").forEach((btn) => {
-            btn.addEventListener("click", () => deleteProduct(btn.dataset.id));
-          });
-        },
-        (error) => {
-          console.error(error);
-          productList.innerHTML = `<p class="muted">Erro ao carregar produtos.</p>`;
-          setStatus(listStatus, "Não foi possível carregar os e-books.", "error");
+      .onSnapshot(snapshot => {
+        if (snapshot.empty) {
+          productList.innerHTML = `<p class="muted">Nenhum e-book cadastrado ainda.</p>`;
+          return;
         }
-      );
+
+        productList.innerHTML = "";
+
+        snapshot.forEach(doc => {
+          const product = doc.data();
+          const id = doc.id;
+
+          const card = document.createElement("div");
+          card.className = "product";
+
+          card.innerHTML = `
+            <div>
+              <h3>${escapeHtml(product.title)}</h3>
+              <p>${escapeHtml(product.description)}</p>
+              <p style="margin-top: 8px; color: #1fc51f; font-weight: 600;">
+                ${Number(product.price).toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL"
+                })}
+              </p>
+            </div>
+            <div class="product-actions">
+              <button class="button secondary btn-edit" data-id="${id}">Editar</button>
+              <button class="button danger btn-delete" data-id="${id}">Excluir</button>
+            </div>
+          `;
+
+          productList.appendChild(card);
+        });
+
+        document.querySelectorAll(".btn-edit").forEach(btn => {
+          btn.addEventListener("click", () => editProduct(btn.dataset.id));
+        });
+
+        document.querySelectorAll(".btn-delete").forEach(btn => {
+          btn.addEventListener("click", () => deleteProduct(btn.dataset.id));
+        });
+      }, error => {
+        console.error(error);
+        productList.innerHTML = `<p class="muted">Erro ao carregar produtos.</p>`;
+        setStatus(listStatus, "Não foi possível carregar os e-books.", "error");
+      });
   }
 
   async function editProduct(id) {
@@ -242,11 +233,10 @@ document.addEventListener("DOMContentLoaded", () => {
       formTitle.textContent = "Editar e-book";
       saveProductButton.textContent = "Salvar alterações";
       cancelEditButton.classList.remove("hidden");
-
       productForm.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
       console.error(error);
-      setStatus(productStatus, "Erro ao carregar o produto para edição.", "error");
+      setStatus(productStatus, "Erro ao carregar produto.", "error");
     }
   }
 

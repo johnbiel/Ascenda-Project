@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080808">
+  <meta name="theme-color" content="#000000">
   <title>Painel ADM | Evolua</title>
   <link rel="stylesheet" href="adm.css">
 </head>
@@ -11,22 +11,22 @@
   <main class="container">
     <div class="brand">EVO<span>LUA</span></div>
 
-    <!-- ÁREA DE LOGIN -->
+    <!-- LOGIN -->
     <section id="loginArea" class="panel">
       <h1>Painel Administrativo</h1>
       <p class="muted">
-        Entre com sua conta autorizada para gerenciar os produtos da loja.
+        Entre com sua conta autorizada para gerenciar os produtos.
       </p>
 
       <form id="loginForm">
         <div class="field">
           <label for="email">E-mail</label>
-          <input type="email" id="email" autocomplete="username" required>
+          <input type="email" id="email" autocomplete="username" required placeholder="seu@email.com">
         </div>
 
         <div class="field">
           <label for="password">Senha</label>
-          <input type="password" id="password" autocomplete="current-password" required>
+          <input type="password" id="password" autocomplete="current-password" required placeholder="••••••••">
         </div>
 
         <button class="button primary" id="loginButton" type="submit">
@@ -37,9 +37,8 @@
       </form>
     </section>
 
-    <!-- ÁREA ADMINISTRATIVA -->
+    <!-- ÁREA ADMIN -->
     <section id="adminArea" class="hidden">
-      <!-- Topbar -->
       <div class="panel">
         <div class="topbar">
           <div>
@@ -53,12 +52,11 @@
           </button>
         </div>
         <p class="muted">
-          Cadastre, edite ou exclua e-books. Os dados são salvos no Firestore
-          e aparecem automaticamente na página de produtos.
+          Cadastre, edite ou exclua e-books. Os dados são salvos no Firestore.
         </p>
       </div>
 
-      <!-- Formulário de Cadastro / Edição -->
+      <!-- Formulário -->
       <div class="panel">
         <h2 id="formTitle">Cadastrar novo e-book</h2>
 
@@ -77,34 +75,17 @@
 
           <div class="field">
             <label for="productPrice">Preço (R$)</label>
-            <input
-              id="productPrice"
-              type="number"
-              min="0"
-              step="0.01"
-              placeholder="29.90"
-              required
-            >
+            <input id="productPrice" type="number" min="0" step="0.01" placeholder="29.90" required>
           </div>
 
           <div class="field">
             <label for="productImage">URL da imagem da capa</label>
-            <input
-              id="productImage"
-              type="url"
-              placeholder="https://exemplo.com/capa.jpg"
-              required
-            >
+            <input id="productImage" type="url" placeholder="https://exemplo.com/capa.jpg" required>
           </div>
 
           <div class="field">
             <label for="productLink">Link de compra (Kiwify)</label>
-            <input
-              id="productLink"
-              type="url"
-              placeholder="https://pay.kiwify.com.br/..."
-              required
-            >
+            <input id="productLink" type="url" placeholder="https://pay.kiwify.com.br/..." required>
           </div>
 
           <div class="form-actions">
@@ -120,7 +101,7 @@
         </form>
       </div>
 
-      <!-- Lista de Produtos -->
+      <!-- Lista -->
       <div class="panel">
         <h2>E-books cadastrados</h2>
         <div id="productList" class="products-list">
@@ -131,13 +112,12 @@
     </section>
   </main>
 
-  <!-- Firebase -->
+  <!-- Firebase + Scripts (caminhos corrigidos) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-  <script src="js/firebase-config.js"></script>
-  <script src="js/adm.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="adm.js"></script>
 </body>
 </html>
-
