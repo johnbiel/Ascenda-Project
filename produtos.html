@@ -1,33 +1,18 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Produtos | Evolua</title>
-
-    <meta
-        name="description"
-        content="Conheça os produtos digitais da Evolua e comece sua jornada de desenvolvimento."
-    >
-
+    <meta name="description" content="Conheça os produtos digitais da Evolua.">
     <link rel="stylesheet" href="produtos.css">
 </head>
 
 <body>
-
-    <!-- =========================
-         HEADER
-    ========================== -->
-
     <header class="header">
-
         <div class="container nav">
-
-            <a href="index.html" class="logo">
-                EVOLUA
-            </a>
+            <a href="index.html" class="logo">EVOLUA</a>
 
             <nav>
                 <a href="index.html">Início</a>
@@ -37,489 +22,327 @@
                 <a href="contato.html">Contato</a>
             </nav>
 
-            <a href="#produtos" class="btn btn-small">
-                Ver produtos
-            </a>
-
+            <a href="#produtos" class="btn btn-small">Ver produtos</a>
         </div>
-
     </header>
 
-
-    <!-- =========================
-         CONTEÚDO
-    ========================== -->
-
     <main>
-
-
-        <!-- =========================
-             HERO
-        ========================== -->
-
         <section class="products-hero">
-
             <div class="container">
+                <span class="tag">PRODUTOS DIGITAIS</span>
 
-                <span class="tag">
-                    PRODUTOS DIGITAIS
-                </span>
-
-                <h1>
-                    Ferramentas para
-                    <span>desenvolvimento.</span>
-                </h1>
+                <h1>Ferramentas para <span>desenvolvimento.</span></h1>
 
                 <p>
-                    Conteúdos e ferramentas digitais criados
-                    para ajudar você a desenvolver sua mente,
-                    organizar seus objetivos e transformar
-                    conhecimento em prática.
+                    Conteúdos e ferramentas digitais criados para ajudar
+                    você a desenvolver sua mente, organizar seus objetivos
+                    e transformar conhecimento em prática.
                 </p>
 
                 <div class="hero-buttons">
-
-                    <a href="#produtos" class="btn">
-                        Explorar produtos
-                    </a>
-
-                    <a href="#por-que" class="btn btn-outline">
-                        Saiba mais
-                    </a>
-
+                    <a href="#produtos" class="btn">Explorar produtos</a>
+                    <a href="#por-que" class="btn btn-outline">Saiba mais</a>
                 </div>
-
             </div>
-
         </section>
-
-
-        <!-- =========================
-             PRODUTOS
-        ========================== -->
 
         <section class="products-section" id="produtos">
-
             <div class="container">
-
                 <div class="section-title">
-
-                    <span class="tag">
-                        ESCOLHA SEU PRÓXIMO PASSO
-                    </span>
-
-                    <h2>
-                        Produtos feitos para
-                        colocar a evolução em prática.
-                    </h2>
-
+                    <span class="tag">ESCOLHA SEU PRÓXIMO PASSO</span>
+                    <h2>Produtos feitos para colocar a evolução em prática.</h2>
                     <p>
-                        Comece com um conteúdo, ferramenta ou
-                        experiência que faça sentido para o seu momento.
+                        Comece com um conteúdo, ferramenta ou experiência
+                        que faça sentido para o seu momento.
                     </p>
-
                 </div>
-
 
                 <div class="products-grid">
+                    <div id="dynamicProducts" style="display: contents;"></div>
 
-
-                    <!-- =========================
-                         E-BOOK
-                    ========================== -->
-
-                    <article class="product-card">
-
-                        <div class="product-image ebook-cover">
-
-                            <span class="cover-label">
-                                E-BOOK
-                            </span>
-
-                            <div class="cover-content">
-
-                                <span>
-                                    EVOLUA
-                                </span>
-
-                                <h2>
-                                    DESENVOLVIMENTO
-                                    <br>
-                                    PESSOAL
-                                </h2>
-
-                                <small>
-                                    CONHECIMENTO • MENTALIDADE • AÇÃO
-                                </small>
-
-                            </div>
-
-                            <span class="cover-number">
-                                01
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-content">
-
-                            <span class="product-type">
-                                E-BOOK DIGITAL
-                            </span>
-
-                            <h3>
-                                Desenvolvimento Pessoal
-                            </h3>
-
-                            <p>
-                                Um material criado para ajudar você
-                                a refletir sobre hábitos, disciplina,
-                                mentalidade e evolução pessoal.
-                            </p>
-
-
-                            <ul class="product-list">
-
-                                <li>
-                                    Conteúdo digital
-                                </li>
-
-                                <li>
-                                    Acesso após a compra
-                                </li>
-
-                                <li>
-                                    Leitura no celular ou computador
-                                </li>
-
-                            </ul>
-
-
-                            <div class="product-bottom">
-
-                                <div class="price">
-
-                                    <small>
-                                        POR APENAS
-                                    </small>
-
-                                    <strong>
-                                        R$ 12,00
-                                    </strong>
-
-                                </div>
-
-                                <!-- COLOQUE SEU LINK DA KIWIFY -->
-
-                                <a
-                                    href="SEU_LINK_KIWIFY_EBOOK"
-                                    class="btn buy-button"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Comprar →
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-
-                    <!-- =========================
-                         APP
-                    ========================== -->
+                    <p id="productsStatus" role="status"
+                       style="grid-column: 1 / -1;">
+                        Carregando e-books...
+                    </p>
 
                     <article class="product-card">
-
                         <div class="product-image app-cover">
-
-                            <span class="cover-label">
-                                APP
-                            </span>
-
-                            <div class="app-symbol">
-                                +
-                            </div>
+                            <span class="cover-label">APP</span>
+                            <div class="app-symbol">+</div>
 
                             <div class="cover-content">
-
-                                <span>
-                                    EVOLUA
-                                </span>
-
-                                <h2>
-                                    SUA EVOLUÇÃO
-                                    <br>
-                                    COMEÇA AQUI.
-                                </h2>
-
-                                <small>
-                                    HÁBITOS • OBJETIVOS • PROGRESSO
-                                </small>
-
+                                <span>EVOLUA</span>
+                                <h2>SUA EVOLUÇÃO<br>COMEÇA AQUI.</h2>
+                                <small>HÁBITOS • OBJETIVOS • PROGRESSO</small>
                             </div>
 
-                            <span class="cover-number">
-                                02
-                            </span>
-
+                            <span class="cover-number">02</span>
                         </div>
 
-
                         <div class="product-content">
-
-                            <span class="product-type">
-                                APLICATIVO
-                            </span>
-
-                            <h3>
-                                Evolua App
-                            </h3>
+                            <span class="product-type">APLICATIVO</span>
+                            <h3>Evolua App</h3>
 
                             <p>
-                                Uma experiência digital pensada para
-                                ajudar você a organizar objetivos,
-                                hábitos e acompanhar seu progresso.
+                                Uma experiência digital pensada para ajudar
+                                você a organizar objetivos, hábitos e
+                                acompanhar seu progresso.
                             </p>
 
-
                             <ul class="product-list">
-
-                                <li>
-                                    Ferramentas de desenvolvimento
-                                </li>
-
-                                <li>
-                                    Experiência digital
-                                </li>
-
-                                <li>
-                                    Uso prático no dia a dia
-                                </li>
-
+                                <li>Ferramentas de desenvolvimento</li>
+                                <li>Experiência digital</li>
+                                <li>Uso prático no dia a dia</li>
                             </ul>
 
-
                             <div class="product-bottom">
-
                                 <div class="price">
-
-                                    <small>
-                                        STATUS
-                                    </small>
-
-                                    <strong>
-                                        Em breve
-                                    </strong>
-
+                                    <small>STATUS</small>
+                                    <strong>Em breve</strong>
                                 </div>
 
-                                <a
-                                    href="#"
-                                    class="btn buy-button"
-                                >
+                                <a href="#" class="btn buy-button">
                                     Conhecer →
                                 </a>
-
                             </div>
-
                         </div>
-
                     </article>
-
                 </div>
-
             </div>
-
         </section>
 
-
-
-        <!-- =========================
-             POR QUE EVOLUA
-        ========================== -->
-
         <section class="why-section" id="por-que">
-
             <div class="container">
-
                 <div class="section-title">
-
-                    <span class="tag">
-                        POR QUE EVOLUA?
-                    </span>
-
-                    <h2>
-                        Conhecimento que
-                        vira prática.
-                    </h2>
-
+                    <span class="tag">POR QUE EVOLUA?</span>
+                    <h2>Conhecimento que vira prática.</h2>
                     <p>
                         A proposta é simples: criar ferramentas
                         que você realmente consiga usar.
                     </p>
-
                 </div>
 
-
                 <div class="why-grid">
-
-
                     <div class="why-card">
-
-                        <span>
-                            01
-                        </span>
-
-                        <h3>
-                            Conteúdo direto
-                        </h3>
-
+                        <span>01</span>
+                        <h3>Conteúdo direto</h3>
                         <p>
-                            Sem excesso de informação.
                             Conteúdo organizado para facilitar
                             o entendimento e a aplicação.
                         </p>
-
                     </div>
-
-
 
                     <div class="why-card">
-
-                        <span>
-                            02
-                        </span>
-
-                        <h3>
-                            Experiência digital
-                        </h3>
-
+                        <span>02</span>
+                        <h3>Experiência digital</h3>
                         <p>
-                            Produtos pensados para serem
-                            simples, modernos e fáceis de utilizar.
+                            Produtos pensados para serem simples,
+                            modernos e fáceis de utilizar.
                         </p>
-
                     </div>
-
-
 
                     <div class="why-card">
-
-                        <span>
-                            03
-                        </span>
-
-                        <h3>
-                            Evolução contínua
-                        </h3>
-
+                        <span>03</span>
+                        <h3>Evolução contínua</h3>
                         <p>
-                            A Evolua está em construção e novos
-                            conteúdos e ferramentas serão adicionados.
+                            Novos conteúdos e ferramentas
+                            serão adicionados.
                         </p>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
-
-
-        <!-- =========================
-             CTA
-        ========================== -->
 
         <section class="products-cta">
-
             <div class="container">
-
-                <span class="tag">
-                    EVOLUA
-                </span>
-
-                <h2>
-                    Seu próximo nível
-                    começa com uma decisão.
-                </h2>
-
-                <p>
-                    Escolha um produto e comece a construir
-                    sua própria evolução.
-                </p>
-
-                <a href="#produtos" class="btn">
-                    Explorar produtos
-                </a>
-
+                <span class="tag">EVOLUA</span>
+                <h2>Seu próximo nível começa com uma decisão.</h2>
+                <p>Escolha um produto e comece a construir sua evolução.</p>
+                <a href="#produtos" class="btn">Explorar produtos</a>
             </div>
-
         </section>
-
     </main>
 
-
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
-
     <footer class="footer">
-
         <div class="container footer-content">
-
             <div>
-
-                <a href="index.html" class="logo">
-                    EVOLUA
-                </a>
-
-                <p>
-                    Conhecimento que transforma.
-                </p>
-
+                <a href="index.html" class="logo">EVOLUA</a>
+                <p>Conhecimento que transforma.</p>
             </div>
-
 
             <div class="footer-links">
-
-                <a href="index.html">
-                    Início
-                </a>
-
-                <a href="produtos.html">
-                    Produtos
-                </a>
-
-                <a href="Descrição.html">
-                    Sobre
-                </a>
-
-                <a href="contato.html">
-                    Contato
-                </a>
-
+                <a href="index.html">Início</a>
+                <a href="produtos.html">Produtos</a>
+                <a href="Descrição.html">Sobre</a>
+                <a href="contato.html">Contato</a>
             </div>
-
         </div>
-
 
         <div class="container copyright">
-
-            <p>
-                © 2026 Evolua. Todos os direitos reservados.
-            </p>
-
+            <p>© 2026 Evolua. Todos os direitos reservados.</p>
         </div>
-
     </footer>
 
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("dynamicProducts");
+            const status = document.getElementById("productsStatus");
+
+            if (!container || !status) return;
+
+            if (!firebase.apps.length) {
+                status.textContent = "Erro ao inicializar o Firebase.";
+                return;
+            }
+
+            const db = firebase.firestore();
+
+            function createElement(tag, className, text) {
+                const element = document.createElement(tag);
+
+                if (className) element.className = className;
+                if (text !== undefined) element.textContent = text;
+
+                return element;
+            }
+
+            function validUrl(value) {
+                try {
+                    const url = new URL(value);
+                    return url.protocol === "https:" ||
+                           url.protocol === "http:";
+                } catch {
+                    return false;
+                }
+            }
+
+            function createProduct(product) {
+                const card = createElement("article", "product-card");
+                const imageArea = createElement(
+                    "div", "product-image ebook-cover"
+                );
+
+                imageArea.appendChild(
+                    createElement("span", "cover-label", "E-BOOK")
+                );
+
+                if (product.image && validUrl(product.image)) {
+                    const image = document.createElement("img");
+                    image.src = product.image;
+                    image.alt = "Capa de " + product.title;
+                    image.loading = "lazy";
+                    image.style.width = "100%";
+                    image.style.height = "100%";
+                    image.style.objectFit = "cover";
+                    image.onerror = () => image.remove();
+                    imageArea.appendChild(image);
+                } else {
+                    const cover = createElement("div", "cover-content");
+                    cover.appendChild(
+                        createElement("span", "", "EVOLUA")
+                    );
+                    cover.appendChild(
+                        createElement("h2", "", product.title)
+                    );
+                    imageArea.appendChild(cover);
+                }
+
+                const content = createElement("div", "product-content");
+
+                content.appendChild(
+                    createElement("span", "product-type", "E-BOOK DIGITAL")
+                );
+                content.appendChild(
+                    createElement("h3", "", product.title)
+                );
+                content.appendChild(
+                    createElement("p", "", product.description)
+                );
+
+                const list = createElement("ul", "product-list");
+
+                [
+                    "Conteúdo digital",
+                    "Acesso após a compra",
+                    "Leitura no celular ou computador"
+                ].forEach(item => {
+                    list.appendChild(createElement("li", "", item));
+                });
+
+                content.appendChild(list);
+
+                const bottom = createElement("div", "product-bottom");
+                const price = createElement("div", "price");
+
+                price.appendChild(
+                    createElement("small", "", "POR APENAS")
+                );
+
+                price.appendChild(
+                    createElement(
+                        "strong",
+                        "",
+                        Number(product.price).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL"
+                        })
+                    )
+                );
+
+                bottom.appendChild(price);
+
+                if (validUrl(product.link)) {
+                    const button = createElement(
+                        "a", "btn buy-button", "Comprar →"
+                    );
+
+                    button.href = product.link;
+                    button.target = "_blank";
+                    button.rel = "noopener noreferrer";
+                    bottom.appendChild(button);
+                }
+
+                content.appendChild(bottom);
+                card.appendChild(imageArea);
+                card.appendChild(content);
+
+                return card;
+            }
+
+            db.collection("produtos").onSnapshot(snapshot => {
+                container.replaceChildren();
+
+                const products = snapshot.docs
+                    .map(doc => doc.data())
+                    .filter(product =>
+                        typeof product.title === "string" &&
+                        typeof product.description === "string" &&
+                        Number.isFinite(Number(product.price)) &&
+                        Number(product.price) >= 0 &&
+                        typeof product.link === "string"
+                    );
+
+                if (products.length === 0) {
+                    status.textContent =
+                        "Nenhum e-book cadastrado no momento.";
+                    return;
+                }
+
+                products.forEach(product => {
+                    container.appendChild(createProduct(product));
+                });
+
+                status.textContent = "";
+            }, error => {
+                console.error("Erro ao carregar produtos:", error);
+                status.textContent =
+                    "Não foi possível carregar os e-books.";
+            });
+        });
+    </script>
 </body>
 </html>
