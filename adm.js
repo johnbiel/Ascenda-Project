@@ -1,53 +1,271 @@
+document.addEventListener("DOMContentLoaded", () => {
+  // ============================================
+  // LISTA DE E-MAILS AUTORIZADOS (ADMINS)
+  // Adicione aqui os e-mails que podem acessar
+  // ============================================
+  const ADMIN_EMAILS = [
+    "seu-email@gmail.com",          // ← troque pelo seu e-mail real
+    // "outro-admin@email.com",     // pode adicionar mais se quiser
+  ];
 
-const carregando = document.getElementById("carregando");
-const painel = document.getElementById("painel");
-const adminEmail = document.getElementById("adminEmail");
-const sairButton = document.getElementById("sairButton");
+  // Elementos
+  const loginArea = document.getElementById("loginArea");
+  const adminArea = document.getElementById("adminArea");
+  const loginForm = document.getElementById("loginForm");
+  const loginButton = document.getElementById("loginButton");
+  const loginStatus = document.getElementById("loginStatus");
+  const logoutButton = document.getElementById("logoutButton");
+  const adminEmail = document.getElementById("adminEmail");
 
-let verificacaoEmAndamento = false;
+  const productForm = document.getElementById("productForm");
+  const productId = document.getElementById("productId");
+  const productTitle = document.getElementById("productTitle");
+  const productDescription = document.getElementById("productDescription");
+  const productPrice = document.getElementById("productPrice");
+  const productImage = document.getElementById("productImage");
+  const productLink = document.getElementById("productLink");
+  const saveProductButton = document.getElementById("saveProductButton");
+  const cancelEditButton = document.getElementById("cancelEditButton");
+  const formTitle = document.getElementById("formTitle");
+  const productStatus = document.getElementById("productStatus");
+  const productList = document.getElementById("productList");
+  const listStatus = document.getElementById("listStatus");
 
-auth.onAuthStateChanged(async (user) => {
-  if (verificacaoEmAndamento) return;
-
-  verificacaoEmAndamento = true;
-  painel.hidden = true;
-  carregando.hidden = false;
-
-  if (!user) {
-    window.location.replace("login.html");
+  if (!firebase.apps.length) {
+    loginStatus.textContent = "Erro ao carregar Firebase. Verifique o arquivo de configuração.";
+    loginStatus.className = "status error";
     return;
   }
 
-  try {
-    const doc = await db.collection("usuarios").doc(user.uid).get();
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-    if (!doc.exists || doc.data().perfil !== "admin") {
+  // ==================== AUTH ====================
+
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      // Verifica se o e-mail está na lista de admins
+      const isAdmin = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(user.email.toLowerCase());
+
+      if (!isAdmin) {
+        // Não é admin → desloga e mostra erro
+        await auth.signOut();
+        loginArea.classList.remove("hidden");
+        adminArea.classList.add("hidden");
+        setStatus(loginStatus, "Acesso negado. Este e-mail não tem permissão de administrador.", "error");
+        return;
+      }
+
+      // É admin → libera o painel
+      loginArea.classList.add("hidden");
+      adminArea.classList.remove("hidden");
+      adminEmail.textContent = user.email;
+      loadProducts();
+    } else {
+      loginArea.classList.remove("hidden");
+      adminArea.classList.add("hidden");
+      productList.innerHTML = `<p class="muted">Carregando produtos...</p>`;
+    }
+  });
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    setStatus(loginStatus, "");
+    loginButton.disabled = true;
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      // O onAuthStateChanged cuida do resto (verifica se é admin)
+    } catch (error) {
+      console.error(error);
+      setStatus(loginStatus, getAuthErrorMessage(error.code), "error");
+    } finally {
+      loginButton.disabled = false;
+    }
+  });
+
+  logoutButton.addEventListener("click", async () => {
+    try {
       await auth.signOut();
-      window.location.replace("login.html");
+      setStatus(loginStatus, "");
+    } catch (error) {
+      console.error("Erro ao sair:", error);
+    }
+  });
+
+  function getAuthErrorMessage(code) {
+    const messages = {
+      "auth/invalid-email": "E-mail inválido.",
+      "auth/user-disabled": "Conta desativada.",
+      "auth/user-not-found": "Usuário não encontrado.",
+      "auth/wrong-password": "Senha incorreta.",
+      "auth/invalid-credential": "E-mail ou senha incorretos.",
+      "auth/too-many-requests": "Muitas tentativas. Tente novamente mais tarde.",
+      "auth/network-request-failed": "Erro de conexão. Verifique sua internet."
+    };
+    return messages[code] || "Erro ao fazer login. Tente novamente.";
+  }
+
+  function setStatus(element, message, type = "") {
+    element.textContent = message;
+    element.className = `status ${type}`;
+  }
+
+  // ==================== PRODUTOS ====================
+
+  function resetForm() {
+    productForm.reset();
+    productId.value = "";
+    formTitle.textContent = "Cadastrar novo e-book";
+    saveProductButton.textContent = "Cadastrar e-book";
+    cancelEditButton.classList.add("hidden");
+    setStatus(productStatus, "");
+  }
+
+  cancelEditButton.addEventListener("click", resetForm);
+
+  productForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    setStatus(productStatus, "Salvando...");
+    saveProductButton.disabled = true;
+
+    const data = {
+      title: productTitle.value.trim(),
+      description: productDescription.value.trim(),
+      price: Number(productPrice.value),
+      image: productImage.value.trim(),
+      link: productLink.value.trim(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    if (!data.title || !data.description || isNaN(data.price) || data.price < 0) {
+      setStatus(productStatus, "Preencha todos os campos corretamente.", "error");
+      saveProductButton.disabled = false;
       return;
     }
 
-    adminEmail.textContent = user.email || "Administrador";
-    painel.hidden = false;
-    carregando.hidden = true;
-  } catch (error) {
-    console.error("Erro ao verificar administrador:", error);
-    carregando.textContent =
-      "Não foi possível verificar o acesso. Atualize a página.";
-  } finally {
-    verificacaoEmAndamento = false;
+    try {
+      if (productId.value) {
+        await db.collection("produtos").doc(productId.value).update(data);
+        setStatus(productStatus, "E-book atualizado com sucesso!", "success");
+      } else {
+        data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+        await db.collection("produtos").add(data);
+        setStatus(productStatus, "E-book cadastrado com sucesso!", "success");
+      }
+
+      resetForm();
+    } catch (error) {
+      console.error(error);
+      setStatus(productStatus, "Erro ao salvar o e-book. Tente novamente.", "error");
+    } finally {
+      saveProductButton.disabled = false;
+    }
+  });
+
+  function loadProducts() {
+    setStatus(listStatus, "");
+
+    db.collection("produtos")
+      .orderBy("createdAt", "desc")
+      .onSnapshot(
+        (snapshot) => {
+          if (snapshot.empty) {
+            productList.innerHTML = `<p class="muted">Nenhum e-book cadastrado ainda.</p>`;
+            return;
+          }
+
+          productList.innerHTML = "";
+
+          snapshot.forEach((doc) => {
+            const product = doc.data();
+            const id = doc.id;
+
+            const card = document.createElement("div");
+            card.className = "product";
+
+            card.innerHTML = `
+              <div>
+                <h3>${escapeHtml(product.title)}</h3>
+                <p>${escapeHtml(product.description)}</p>
+                <p style="margin-top: 8px; color: #b6ff5c;">
+                  ${Number(product.price).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                  })}
+                </p>
+              </div>
+              <div class="product-actions">
+                <button class="button secondary btn-edit" data-id="${id}">Editar</button>
+                <button class="button danger btn-delete" data-id="${id}">Excluir</button>
+              </div>
+            `;
+
+            productList.appendChild(card);
+          });
+
+          document.querySelectorAll(".btn-edit").forEach((btn) => {
+            btn.addEventListener("click", () => editProduct(btn.dataset.id));
+          });
+
+          document.querySelectorAll(".btn-delete").forEach((btn) => {
+            btn.addEventListener("click", () => deleteProduct(btn.dataset.id));
+          });
+        },
+        (error) => {
+          console.error(error);
+          productList.innerHTML = `<p class="muted">Erro ao carregar produtos.</p>`;
+          setStatus(listStatus, "Não foi possível carregar os e-books.", "error");
+        }
+      );
   }
-});
 
-sairButton.addEventListener("click", async () => {
-  sairButton.disabled = true;
+  async function editProduct(id) {
+    try {
+      const doc = await db.collection("produtos").doc(id).get();
+      if (!doc.exists) {
+        setStatus(productStatus, "Produto não encontrado.", "error");
+        return;
+      }
 
-  try {
-    await auth.signOut();
-    window.location.replace("login.html");
-  } catch (error) {
-    console.error("Erro ao sair:", error);
-    sairButton.disabled = false;
-    alert("Não foi possível encerrar a sessão. Tente novamente.");
+      const data = doc.data();
+      productId.value = id;
+      productTitle.value = data.title || "";
+      productDescription.value = data.description || "";
+      productPrice.value = data.price || "";
+      productImage.value = data.image || "";
+      productLink.value = data.link || "";
+
+      formTitle.textContent = "Editar e-book";
+      saveProductButton.textContent = "Salvar alterações";
+      cancelEditButton.classList.remove("hidden");
+
+      productForm.scrollIntoView({ behavior: "smooth" });
+    } catch (error) {
+      console.error(error);
+      setStatus(productStatus, "Erro ao carregar o produto para edição.", "error");
+    }
+  }
+
+  async function deleteProduct(id) {
+    if (!confirm("Tem certeza que deseja excluir este e-book?")) return;
+
+    try {
+      await db.collection("produtos").doc(id).delete();
+      setStatus(listStatus, "E-book excluído com sucesso.", "success");
+      setTimeout(() => setStatus(listStatus, ""), 3000);
+    } catch (error) {
+      console.error(error);
+      setStatus(listStatus, "Erro ao excluir o e-book.", "error");
+    }
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
   }
 });

@@ -1,22 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produtos | Evolua</title>
-    <meta name="description" content="Conheça os produtos digitais da Evolua.">
+    <meta name="description" content="Conheça os produtos digitais da Evolua. Ferramentas para desenvolvimento pessoal e profissional.">
     <link rel="stylesheet" href="produtos.css">
 </head>
 
 <body>
     <header class="header">
         <div class="container nav">
-            <a href="index.html" class="logo">EVOLUA</a>
+            <a href="index.html" class="logo" aria-label="Evolua - Página inicial">EVOLUA</a>
 
-            <nav>
+            <nav aria-label="Menu principal">
                 <a href="index.html">Início</a>
-                <a href="produtos.html" class="active">Produtos</a>
+                <a href="produtos.html" class="active" aria-current="page">Produtos</a>
                 <a href="Como.html">Como Funciona</a>
                 <a href="Descrição.html">Sobre</a>
                 <a href="contato.html">Contato</a>
@@ -27,6 +26,7 @@
     </header>
 
     <main>
+        <!-- Hero -->
         <section class="products-hero">
             <div class="container">
                 <span class="tag">PRODUTOS DIGITAIS</span>
@@ -46,29 +46,24 @@
             </div>
         </section>
 
+        <!-- Produtos -->
         <section class="products-section" id="produtos">
             <div class="container">
                 <div class="section-title">
                     <span class="tag">ESCOLHA SEU PRÓXIMO PASSO</span>
                     <h2>Produtos feitos para colocar a evolução em prática.</h2>
                     <p>
-                        Comece com um conteúdo, ferramenta ou experiência
+                        Comece com uma ferramenta ou experiência
                         que faça sentido para o seu momento.
                     </p>
                 </div>
 
                 <div class="products-grid">
-                    <div id="dynamicProducts" style="display: contents;"></div>
-
-                    <p id="productsStatus" role="status"
-                       style="grid-column: 1 / -1;">
-                        Carregando e-books...
-                    </p>
-
+                    <!-- Card do App (mantido) -->
                     <article class="product-card">
                         <div class="product-image app-cover">
                             <span class="cover-label">APP</span>
-                            <div class="app-symbol">+</div>
+                            <div class="app-symbol" aria-hidden="true">+</div>
 
                             <div class="cover-content">
                                 <span>EVOLUA</span>
@@ -111,6 +106,7 @@
             </div>
         </section>
 
+        <!-- Por que Evolua -->
         <section class="why-section" id="por-que">
             <div class="container">
                 <div class="section-title">
@@ -153,6 +149,7 @@
             </div>
         </section>
 
+        <!-- CTA final -->
         <section class="products-cta">
             <div class="container">
                 <span class="tag">EVOLUA</span>
@@ -182,167 +179,5 @@
             <p>© 2026 Evolua. Todos os direitos reservados.</p>
         </div>
     </footer>
-
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="js/firebase-config.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const container = document.getElementById("dynamicProducts");
-            const status = document.getElementById("productsStatus");
-
-            if (!container || !status) return;
-
-            if (!firebase.apps.length) {
-                status.textContent = "Erro ao inicializar o Firebase.";
-                return;
-            }
-
-            const db = firebase.firestore();
-
-            function createElement(tag, className, text) {
-                const element = document.createElement(tag);
-
-                if (className) element.className = className;
-                if (text !== undefined) element.textContent = text;
-
-                return element;
-            }
-
-            function validUrl(value) {
-                try {
-                    const url = new URL(value);
-                    return url.protocol === "https:" ||
-                           url.protocol === "http:";
-                } catch {
-                    return false;
-                }
-            }
-
-            function createProduct(product) {
-                const card = createElement("article", "product-card");
-                const imageArea = createElement(
-                    "div", "product-image ebook-cover"
-                );
-
-                imageArea.appendChild(
-                    createElement("span", "cover-label", "E-BOOK")
-                );
-
-                if (product.image && validUrl(product.image)) {
-                    const image = document.createElement("img");
-                    image.src = product.image;
-                    image.alt = "Capa de " + product.title;
-                    image.loading = "lazy";
-                    image.style.width = "100%";
-                    image.style.height = "100%";
-                    image.style.objectFit = "cover";
-                    image.onerror = () => image.remove();
-                    imageArea.appendChild(image);
-                } else {
-                    const cover = createElement("div", "cover-content");
-                    cover.appendChild(
-                        createElement("span", "", "EVOLUA")
-                    );
-                    cover.appendChild(
-                        createElement("h2", "", product.title)
-                    );
-                    imageArea.appendChild(cover);
-                }
-
-                const content = createElement("div", "product-content");
-
-                content.appendChild(
-                    createElement("span", "product-type", "E-BOOK DIGITAL")
-                );
-                content.appendChild(
-                    createElement("h3", "", product.title)
-                );
-                content.appendChild(
-                    createElement("p", "", product.description)
-                );
-
-                const list = createElement("ul", "product-list");
-
-                [
-                    "Conteúdo digital",
-                    "Acesso após a compra",
-                    "Leitura no celular ou computador"
-                ].forEach(item => {
-                    list.appendChild(createElement("li", "", item));
-                });
-
-                content.appendChild(list);
-
-                const bottom = createElement("div", "product-bottom");
-                const price = createElement("div", "price");
-
-                price.appendChild(
-                    createElement("small", "", "POR APENAS")
-                );
-
-                price.appendChild(
-                    createElement(
-                        "strong",
-                        "",
-                        Number(product.price).toLocaleString("pt-BR", {
-                            style: "currency",
-                            currency: "BRL"
-                        })
-                    )
-                );
-
-                bottom.appendChild(price);
-
-                if (validUrl(product.link)) {
-                    const button = createElement(
-                        "a", "btn buy-button", "Comprar →"
-                    );
-
-                    button.href = product.link;
-                    button.target = "_blank";
-                    button.rel = "noopener noreferrer";
-                    bottom.appendChild(button);
-                }
-
-                content.appendChild(bottom);
-                card.appendChild(imageArea);
-                card.appendChild(content);
-
-                return card;
-            }
-
-            db.collection("produtos").onSnapshot(snapshot => {
-                container.replaceChildren();
-
-                const products = snapshot.docs
-                    .map(doc => doc.data())
-                    .filter(product =>
-                        typeof product.title === "string" &&
-                        typeof product.description === "string" &&
-                        Number.isFinite(Number(product.price)) &&
-                        Number(product.price) >= 0 &&
-                        typeof product.link === "string"
-                    );
-
-                if (products.length === 0) {
-                    status.textContent =
-                        "Nenhum e-book cadastrado no momento.";
-                    return;
-                }
-
-                products.forEach(product => {
-                    container.appendChild(createProduct(product));
-                });
-
-                status.textContent = "";
-            }, error => {
-                console.error("Erro ao carregar produtos:", error);
-                status.textContent =
-                    "Não foi possível carregar os e-books.";
-            });
-        });
-    </script>
 </body>
 </html>
