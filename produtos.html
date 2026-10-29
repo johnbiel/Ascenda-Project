@@ -1,8 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
     <title>Produtos | Evolua</title>
     <meta name="description" content="Conheça os produtos digitais da Evolua. Ferramentas para desenvolvimento pessoal e profissional.">
     <link rel="stylesheet" href="produtos.css">
@@ -26,7 +28,6 @@
     </header>
 
     <main>
-        <!-- Hero -->
         <section class="products-hero">
             <div class="container">
                 <span class="tag">PRODUTOS DIGITAIS</span>
@@ -46,7 +47,6 @@
             </div>
         </section>
 
-        <!-- Produtos -->
         <section class="products-section" id="produtos">
             <div class="container">
                 <div class="section-title">
@@ -58,8 +58,8 @@
                     </p>
                 </div>
 
-                <div class="products-grid">
-                    <!-- Card do App (mantido) -->
+                <div class="products-grid" id="productsGrid">
+
                     <article class="product-card">
                         <div class="product-image app-cover">
                             <span class="cover-label">APP</span>
@@ -102,11 +102,15 @@
                             </div>
                         </div>
                     </article>
+
+                    <p id="productsStatus" class="muted" role="status" aria-live="polite">
+                        Carregando e-books...
+                    </p>
+
                 </div>
             </div>
         </section>
 
-        <!-- Por que Evolua -->
         <section class="why-section" id="por-que">
             <div class="container">
                 <div class="section-title">
@@ -149,7 +153,6 @@
             </div>
         </section>
 
-        <!-- CTA final -->
         <section class="products-cta">
             <div class="container">
                 <span class="tag">EVOLUA</span>
@@ -170,7 +173,7 @@
             <div class="footer-links">
                 <a href="index.html">Início</a>
                 <a href="produtos.html">Produtos</a>
-                <a href="Descrição.html">Sobre</a>
+                <a href="descrição.html">Sobre</a>
                 <a href="contato.html">Contato</a>
             </div>
         </div>
@@ -179,5 +182,128 @@
             <p>© 2026 Evolua. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.getElementById("productsGrid");
+        const status = document.getElementById("productsStatus");
+
+        if (typeof firebase === "undefined" || !firebase.apps.length) {
+            status.textContent = "Não foi possível conectar ao catálogo de produtos.";
+            console.error("Firebase não foi inicializado.");
+            return;
+        }
+
+        const db = firebase.firestore();
+
+        db.collection("produtos").onSnapshot(snapshot => {
+            grid.querySelectorAll("[data-firestore-product]").forEach(card => card.remove());
+
+            if (snapshot.empty) {
+                status.textContent = "Nenhum e-book cadastrado no momento.";
+                return;
+            }
+
+            status.textContent = "";
+
+            const products = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            products.sort((a, b) => {
+                const dateA = a.createdAt?.toMillis?.() || 0;
+                const dateB = b.createdAt?.toMillis?.() || 0;
+                return dateB - dateA;
+            });
+
+            products.forEach(product => {
+                const card = document.createElement("article");
+                card.className = "product-card";
+                card.dataset.firestoreProduct = "true";
+
+                const imageContainer = document.createElement("div");
+                imageContainer.className = "product-image";
+
+                const image = document.createElement("img");
+                image.src = product.image || "";
+                image.alt = product.title || "Capa do e-book";
+                image.loading = "lazy";
+                image.style.width = "100%";
+                image.style.height = "100%";
+                image.style.objectFit = "cover";
+
+                image.addEventListener("error", () => {
+                    imageContainer.textContent = "Capa indisponível";
+                });
+
+                imageContainer.appendChild(image);
+
+                const content = document.createElement("div");
+                content.className = "product-content";
+
+                const type = document.createElement("span");
+                type.className = "product-type";
+                type.textContent = "E-BOOK";
+
+                const title = document.createElement("h3");
+                title.textContent = product.title || "E-book";
+
+                const description = document.createElement("p");
+                description.textContent = product.description || "";
+
+                const bottom = document.createElement("div");
+                bottom.className = "product-bottom";
+
+                const priceBox = document.createElement("div");
+                priceBox.className = "price";
+
+                const priceLabel = document.createElement("small");
+                priceLabel.textContent = "PREÇO";
+
+                const price = document.createElement("strong");
+                price.textContent = Number(product.price || 0).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                });
+
+                priceBox.append(priceLabel, price);
+
+                const buyButton = document.createElement("a");
+                buyButton.className = "btn buy-button";
+                buyButton.textContent = "Comprar →";
+
+                try {
+                    const url = new URL(product.link);
+
+                    if (url.protocol === "https:" || url.protocol === "http:") {
+                        buyButton.href = url.href;
+                        buyButton.target = "_blank";
+                        buyButton.rel = "noopener noreferrer";
+                    } else {
+                        buyButton.href = "#";
+                        buyButton.textContent = "Link indisponível";
+                    }
+                } catch {
+                    buyButton.href = "#";
+                    buyButton.textContent = "Link indisponível";
+                }
+
+                bottom.append(priceBox, buyButton);
+                content.append(type, title, description, bottom);
+                card.append(imageContainer, content);
+                grid.appendChild(card);
+            });
+        }, error => {
+            console.error("Erro ao carregar produtos:", error);
+            status.textContent = "Não foi possível carregar os e-books. Verifique a conexão e as permissões do Firestore.";
+        });
+    });
+    </script>
 </body>
 </html>
+
