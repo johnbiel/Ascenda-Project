@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -5,446 +6,423 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sobre | Ascenda Project</title>
+    <title>Produtos | Evolua</title>
 
-    <meta name="description"
-        content="Conheça o Ascenda Project, um projeto criado para transformar conhecimento em evolução.">
+    <meta name="description" content="Conheça os produtos digitais da Evolua e encontre ferramentas para seu desenvolvimento pessoal.">
 
     <link rel="stylesheet" href="descrição.css">
-    <link rel="stylesheet" href="responsivo.css">
 </head>
 
 <body>
 
     <!-- HEADER -->
     <header class="header">
-
         <div class="container nav">
 
-            <a href="index.html" class="logo">
-                ASCENDA PROJECT
-            </a>
+            <a href="index.html" class="logo">ASCENDA</a>
 
-            <nav>
+            <button class="menu-toggle" id="menuToggle"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+                aria-controls="navLinks">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+            <nav id="navLinks">
                 <a href="index.html">Início</a>
                 <a href="produtos.html">Produtos</a>
-                <a href="como.html">Como funciona</a>
-                <a href="Descrição.html" class="active">Sobre</a>
+                <a href="descrição.html">Sobre</a>
                 <a href="contato.html">Contato</a>
-                <a href ="comunidade.html">comunidade</a>
+                <a href="como.html">Como funciona</a>
+                <a href="comunidade.html">Comunidade</a>
+                
             </nav>
 
-            <a href="produtos.html" class="btn btn-small">
-                Ver produtos
+            <a href="#produtos" class="btn btn-small nav-button">
+                Começar agora
             </a>
 
         </div>
-
     </header>
 
 
-    <main>
+    <!-- HERO -->
+    <section class="products-hero">
 
-        <!-- HERO -->
-        <section class="hero">
+        <div class="container">
 
-            <div class="container hero-content">
+            <span class="tag">CONHECIMENTO QUE TRANSFORMA</span>
 
-                <div class="hero-text">
+            <h1>
+                Seu próximo passo começa
+                <span>aqui.</span>
+            </h1>
 
-                    <span class="tag">
-                        SOBRE O ASCENDA
-                    </span>
+            <p>
+                Conhecimento, ferramentas e conteúdos digitais
+                para desenvolver sua mentalidade e evoluir
+                constantemente.
+            </p>
 
-                    <h1>
-                        Conhecimento que
-                        <span>gera evolução.</span>
-                    </h1>
+            <div class="hero-buttons">
 
-                    <p>
-                        O Ascenda Project nasceu com uma ideia simples:
-                        transformar conhecimento em algo que possa ser
-                        aplicado na vida real.
-                    </p>
-
-                    <div class="hero-buttons">
-
-                        <a href="produtos.html" class="btn">
-                            Explorar produtos
-                        </a>
-
-                        <a href="como.html" class="btn btn-outline">
-                            Como funciona
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <div class="hero-card">
-
-                    <div class="card-top">
-                        <span>Ascenda Project</span>
-                        <span>01</span>
-                    </div>
-
-                    <div class="hero-symbol">
-                        +
-                    </div>
-
-                    <h2>
-                        Aprenda.
-                        <br>
-                        Aplique.
-                        <br>
-                        Evolua.
-                    </h2>
-
-                    <p>
-                        Pequenos passos podem construir grandes mudanças.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- SOBRE -->
-        <section class="about">
-
-            <div class="container about-content">
-
-                <div class="section-title">
-
-                    <span class="tag">
-                        NOSSA IDEIA
-                    </span>
-
-                    <h2>
-                        Por que o
-                        <span>Ascenda?</span>
-                    </h2>
-
-                </div>
-
-
-                <div class="about-text">
-
-                    <p>
-                        O Ascenda Project é um projeto voltado para
-                        conhecimento, desenvolvimento pessoal e novas
-                        formas de aprender.
-                    </p>
-
-                    <p>
-                        A proposta é reunir conteúdos, produtos digitais
-                        e ferramentas em um único espaço, tornando o
-                        conhecimento mais simples, acessível e aplicável.
-                    </p>
-
-                    <p>
-                        Mais do que consumir informação, a ideia é usar
-                        aquilo que você aprende para construir novos
-                        hábitos, desenvolver habilidades e continuar
-                        evoluindo.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- PILARES -->
-        <section class="pillars">
-
-            <div class="container">
-
-                <div class="section-title center">
-
-                    <span class="tag">
-                        NOSSOS PILARES
-                    </span>
-
-                    <h2>
-                        O que guia o projeto.
-                    </h2>
-
-                    <p>
-                        Três princípios fazem parte da proposta do Ascenda.
-                    </p>
-
-                </div>
-
-
-                <div class="pillars-grid">
-
-                    <article class="pillar">
-
-                        <span class="pillar-number">
-                            01
-                        </span>
-
-                        <div class="pillar-icon">
-                            +
-                        </div>
-
-                        <h3>
-                            Conhecimento
-                        </h3>
-
-                        <p>
-                            Buscar informações, ideias e conteúdos que
-                            possam ampliar sua visão e gerar aprendizado.
-                        </p>
-
-                    </article>
-
-
-                    <article class="pillar">
-
-                        <span class="pillar-number">
-                            02
-                        </span>
-
-                        <div class="pillar-icon">
-                            +
-                        </div>
-
-                        <h3>
-                            Aplicação
-                        </h3>
-
-                        <p>
-                            Transformar aquilo que você aprende em ações
-                            que possam fazer parte do seu dia a dia.
-                        </p>
-
-                    </article>
-
-
-                    <article class="pillar">
-
-                        <span class="pillar-number">
-                            03
-                        </span>
-
-                        <div class="pillar-icon">
-                            +
-                        </div>
-
-                        <h3>
-                            Evolução
-                        </h3>
-
-                        <p>
-                            Continuar aprendendo, ajustando e avançando
-                            um passo de cada vez.
-                        </p>
-
-                    </article>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- VISÃO -->
-        <section class="vision">
-
-            <div class="container vision-content">
-
-                <div>
-
-                    <span class="tag">
-                        NOSSA VISÃO
-                    </span>
-
-                    <h2>
-                        Evoluir não é
-                        <span>chegar ao fim.</span>
-                    </h2>
-
-                </div>
-
-
-                <div class="vision-text">
-
-                    <p>
-                        A evolução acontece durante o caminho. Por isso,
-                        o Ascenda Project busca criar um espaço onde você
-                        possa descobrir novas ideias, aprender coisas
-                        diferentes e encontrar maneiras de colocar esse
-                        conhecimento em prática.
-                    </p>
-
-                    <p>
-                        Cada conteúdo pode ser um ponto de partida para
-                        uma nova habilidade, uma nova reflexão ou uma
-                        nova decisão.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- DIFERENCIAL -->
-        <section class="difference">
-
-            <div class="container difference-content">
-
-                <div class="difference-card">
-
-                    <span class="difference-number">
-                        01
-                    </span>
-
-                    <h3>
-                        Simples.
-                    </h3>
-
-                    <p>
-                        Conhecimento apresentado de forma clara e direta.
-                    </p>
-
-                </div>
-
-
-                <div class="difference-card">
-
-                    <span class="difference-number">
-                        02
-                    </span>
-
-                    <h3>
-                        Prático.
-                    </h3>
-
-                    <p>
-                        Conteúdos pensados para sair da teoria e chegar
-                        à prática.
-                    </p>
-
-                </div>
-
-
-                <div class="difference-card">
-
-                    <span class="difference-number">
-                        03
-                    </span>
-
-                    <h3>
-                        Contínuo.
-                    </h3>
-
-                    <p>
-                        Um projeto que busca crescer junto com quem
-                        acompanha.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- CTA -->
-        <section class="cta">
-
-            <div class="container">
-
-                <span class="tag">
-                    ASCENDA
-                </span>
-
-                <h2>
-                    O próximo passo
-                    <span>começa com você.</span>
-                </h2>
-
-                <p>
-                    Conheça os produtos e conteúdos do Ascenda Project.
-                </p>
-
-                <a href="produtos.html" class="btn">
+                <a href="#produtos" class="btn">
                     Explorar produtos
+                </a>
+
+                <a href="#porque" class="btn btn-outline">
+                    Conhecer a Evolua
                 </a>
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
+    </section>
+
+
+    <!-- PRODUTOS -->
+    <section class="products-section" id="produtos">
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span class="tag">NOSSOS PRODUTOS</span>
+
+                <h2>
+                    Conhecimento para colocar em prática.
+                </h2>
+
+                <p>
+                    Explore conteúdos e ferramentas criados
+                    para ajudar você em sua jornada de evolução.
+                </p>
+
+            </div>
+
+
+            <div class="products-grid">
+
+                <!-- PRODUTO 1 -->
+                <article class="product-card">
+
+                    <div class="product-image ebook-cover">
+
+                        <span class="cover-label">
+                            EVOLUA DIGITAL
+                        </span>
+
+                        <div class="cover-content">
+
+                            <span>DESENVOLVIMENTO</span>
+
+                            <h2>
+                                Sua evolução começa na mente.
+                            </h2>
+
+                            <small>
+                                CONHECIMENTO • MENTALIDADE • AÇÃO
+                            </small>
+
+                        </div>
+
+                        <span class="cover-number">01</span>
+
+                    </div>
+
+
+                    <div class="product-content">
+
+                        <span class="product-type">E-BOOK DIGITAL</span>
+
+                        <h3>Desenvolva sua mentalidade</h3>
+
+                        <p>
+                            Um conteúdo para refletir, aprender
+                            e desenvolver novas perspectivas
+                            sobre sua própria evolução.
+                        </p>
+
+                        <ul class="product-list">
+                            <li>Desenvolvimento pessoal</li>
+                            <li>Reflexões e mentalidade</li>
+                            <li>Conhecimento aplicável</li>
+                        </ul>
+
+                        <div class="product-bottom">
+
+                            <div class="price">
+                                <small>INVESTIMENTO</small>
+                                <strong>R$ 12,00</strong>
+                            </div>
+
+                            <a href="#" class="btn buy-button">
+                                Conhecer produto
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- PRODUTO 2 -->
+                <article class="product-card">
+
+                    <div class="product-image app-cover">
+
+                        <span class="cover-label">
+                            EVOLUA DIGITAL
+                        </span>
+
+                        <div class="cover-content">
+
+                            <span>TECNOLOGIA</span>
+
+                            <h2>
+                                Aprenda. Organize. Evolua.
+                            </h2>
+
+                            <small>
+                                FERRAMENTAS • PRODUTIVIDADE • IA
+                            </small>
+
+                        </div>
+
+                        <span class="app-symbol">✳</span>
+
+                        <span class="cover-number">02</span>
+
+                    </div>
+
+
+                    <div class="product-content">
+
+                        <span class="product-type">FERRAMENTA DIGITAL</span>
+
+                        <h3>Ferramentas para evoluir</h3>
+
+                        <p>
+                            Recursos digitais e ferramentas
+                            pensadas para facilitar sua rotina
+                            de aprendizado e criatividade.
+                        </p>
+
+                        <ul class="product-list">
+                            <li>Organização e produtividade</li>
+                            <li>Recursos com inteligência artificial</li>
+                            <li>Aprendizado contínuo</li>
+                        </ul>
+
+                        <div class="product-bottom">
+
+                            <div class="price">
+                                <small>DISPONIBILIDADE</small>
+                                <strong>Em breve</strong>
+                            </div>
+
+                            <a href="#contato" class="btn buy-button">
+                                Saiba mais
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- POR QUE EVOLUA -->
+    <section class="why-section" id="porque">
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span class="tag">NOSSA PROPOSTA</span>
+
+                <h2>
+                    Mais que conteúdo. Uma nova perspectiva.
+                </h2>
+
+                <p>
+                    Acreditamos que aprender é apenas o começo.
+                    A verdadeira evolução acontece quando
+                    colocamos o conhecimento em prática.
+                </p>
+
+            </div>
+
+
+            <div class="why-grid">
+
+                <article class="why-card">
+
+                    <span>01</span>
+
+                    <h3>Conhecimento</h3>
+
+                    <p>
+                        Conteúdos que estimulam o pensamento,
+                        a curiosidade e o aprendizado.
+                    </p>
+
+                </article>
+
+
+                <article class="why-card">
+
+                    <span>02</span>
+
+                    <h3>Praticidade</h3>
+
+                    <p>
+                        Recursos e ferramentas para transformar
+                        ideias em ações.
+                    </p>
+
+                </article>
+
+
+                <article class="why-card">
+
+                    <span>03</span>
+
+                    <h3>Evolução</h3>
+
+                    <p>
+                        Desenvolva novas habilidades e construa
+                        seu próprio caminho.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="products-cta" id="contato">
+
+        <div class="container">
+
+            <span class="tag">SEU PRÓXIMO PASSO</span>
+
+            <h2>
+                A evolução começa quando você decide agir.
+            </h2>
+
+            <p>
+                Explore novas ideias, desenvolva habilidades
+                e descubra novas possibilidades.
+            </p>
+
+            <a href="#produtos" class="btn">
+                Explorar produtos
+            </a>
+
+        </div>
+
+    </section>
 
 
     <!-- FOOTER -->
     <footer class="footer">
 
-        <div class="container footer-content">
+        <div class="container">
 
-            <div>
+            <div class="footer-content">
 
-                <div class="logo">
-                    ASCENDA PROJECT
+                <div>
+
+                    <a href="index.html" class="logo">
+                        ASCENDA
+                    </a>
+
+                    <p>
+                        Conhecimento, criatividade e evolução.
+                    </p>
+
                 </div>
 
+
+                <div class="footer-links">
+
+                    <a href="index.html">Início</a>
+                    <a href="produtos.html">Produtos</a>
+                    <a href="sobre.html">Sobre</a>
+                    <a href="contato.html">Contato</a>
+
+                </div>
+
+            </div>
+
+            <div class="copyright">
+
                 <p>
-                    Conhecimento que transforma.
+                    © 2026 Ascenda Project. Todos os direitos reservados.
                 </p>
 
             </div>
-
-
-            <div class="footer-links">
-
-                <a href="index.html">
-                    Início
-                </a>
-
-                <a href="produtos.html">
-                    Produtos
-                </a>
-
-                <a href="como.html">
-                    Como funciona
-                </a>
-
-                <a href="Descrição.html">
-                    Sobre
-                </a>
-
-                <a href="contato.html">
-                    Contato
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <div class="container copyright">
-
-            <p>
-                © 2026 Ascenda Project. Todos os direitos reservados.
-            </p>
 
         </div>
 
     </footer>
 
+
+    <!-- MENU JAVASCRIPT -->
+    <script>
+
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", () => {
+
+            const aberto = navLinks.classList.toggle("open");
+
+            menuToggle.classList.toggle("active", aberto);
+
+            menuToggle.setAttribute("aria-expanded", aberto);
+
+            menuToggle.setAttribute(
+                "aria-label",
+                aberto ? "Fechar menu" : "Abrir menu"
+            );
+
+        });
+
+
+        navLinks.querySelectorAll("a").forEach(link => {
+
+            link.addEventListener("click", () => {
+
+                navLinks.classList.remove("open");
+                menuToggle.classList.remove("active");
+
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "Abrir menu");
+
+            });
+
+        });
+
+    </script>
+
 </body>
-
 </html>
-
 
