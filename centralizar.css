@@ -1,9 +1,28 @@
-@media (min-width: 768px) {
+/* CONFIGURAÇÃO GERAL */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+}
+
+/* PC */
+@media (min-width: 1024px) {
     body {
-        max-width: 430px;
-        margin: 0 auto;
-        min-height: 100vh;
-        background: white;
-        box-shadow: 0 0 15px #00000015;
+        width: 100%;
+        max-width: none;
+        margin: 0;
     }
+}
+
+/* TABLET */
+@media (max-width: 1023px) {
+    /* Ajustes para tablets */
+}
+
+/* CELULAR */
+@media (max-width: 767px) {
+    /* Ajustes para celulares */
 }
