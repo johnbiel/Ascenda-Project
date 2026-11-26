@@ -1,20 +1,125 @@
+/* ========================================
+   ASCENDA PROJECT — RESPONSIVIDADE GLOBAL
+======================================== */
+
 * {
     box-sizing: border-box;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
+html {
+    width: 100%;
+    scroll-behavior: smooth;
 }
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* IMAGENS */
+
+img,
+video,
+iframe {
+    max-width: 100%;
+}
+
+/* ========================================
+   COMPUTADOR
+======================================== */
+
+@media (min-width: 1024px) {
+
+    body {
+        width: 100%;
+    }
+
+    .container {
+        width: min(90%, 1200px);
+        margin: 0 auto;
+    }
+
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1023px) {
+
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+}
+
+/* ========================================
+   CELULAR
+======================================== */
 
 @media (max-width: 768px) {
-    body {
-        overflow-x: hidden;
+
+    .container {
+        width: 90%;
+        margin: 0 auto;
     }
+
+    h1 {
+        font-size: clamp(2rem, 8vw, 3.2rem);
+        line-height: 1.05;
+    }
+
+    h2 {
+        font-size: clamp(1.5rem, 6vw, 2.4rem);
+        line-height: 1.15;
+    }
+
+    h3 {
+        font-size: clamp(1.2rem, 5vw, 1.8rem);
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    button {
+        max-width: 100%;
+    }
+
+    img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+    }
+
 }
 
-@media (min-width: 769px) {
-    body {
-        overflow-x: hidden;
+/* ========================================
+   CELULARES PEQUENOS
+======================================== */
+
+@media (max-width: 480px) {
+
+    h1 {
+        font-size: clamp(1.8rem, 9vw, 2.7rem);
     }
+
+    h2 {
+        font-size: clamp(1.4rem, 7vw, 2rem);
+    }
+
+    .container {
+        width: 92%;
+    }
+
 }
